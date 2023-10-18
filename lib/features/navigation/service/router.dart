@@ -7,9 +7,9 @@ import 'package:photostock/features/debug/screens/log_history_screen/log_history
 import 'package:photostock/features/debug/screens/ui_kit_screen/ui_kit_screen_export.dart';
 import 'package:photostock/features/info/screen/info_screen_export.dart';
 import 'package:photostock/features/navigation/domain/entity/log_history/log_history_routes.dart';
-import 'package:photostock/features/navigation/domain/entity/temp/temp_routes.dart';
+import 'package:photostock/features/navigation/domain/entity/photo_list/photo_list_routes.dart';
 import 'package:photostock/features/navigation/domain/entity/ui_kit/ui_kit_routes.dart';
-import 'package:photostock/features/temp/screens/temp_screen/temp_screen_export.dart';
+import 'package:photostock/features/photo/screens/photo_list/photo_list.dart';
 
 part 'router.gr.dart';
 
@@ -18,7 +18,7 @@ part 'router.gr.dart';
 /// Main point of the application navigation
 
 @AutoRouterConfig(
-  replaceInRouteName: 'ScreenWidget|Screen,Route',
+  replaceInRouteName: 'ScreenWidget|Screen|Widget,Route',
 )
 class AppRouter extends _$AppRouter {
   static final AppRouter _router = AppRouter._();
@@ -28,7 +28,7 @@ class AppRouter extends _$AppRouter {
 
   @override
   List<AutoRoute> get routes => [
-        tempRoutes,
+        photoListRoutes,
         logHistoryRoutes,
         uiKitRoutes,
       ];

@@ -7,7 +7,7 @@
 /// ```
 abstract class AppRoutePaths {
   /// Path to temp screen.
-  static const String tempPath = '/temp';
+  static const String photoListPath = '/photo_list';
 
   /// Path to debug screen.
   static const String debugPath = 'debug';

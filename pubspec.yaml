@@ -5,6 +5,7 @@ publish_to: none
 
 dependencies:
   auto_route: ^7.8.4
+  blurhash: ^1.1.1
   collection: any
   dio: ^5.3.3
   elementary: ^3.0.0
@@ -13,7 +14,6 @@ dependencies:
   firebase_crashlytics: ^3.3.7
   flutter:
     sdk: flutter
-  flutter_blurhash: ^0.7.0
   flutter_localizations:
     sdk: flutter
   intl: any

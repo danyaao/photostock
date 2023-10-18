@@ -1,24 +1,16 @@
-import 'package:photostock/api/unsplash_api/unsplash_api.dart';
-import 'package:photostock/features/common/domain_models/photo.dart';
-import 'package:photostock/features/common/repositories/photo_repository/mappers/remote_to_domain.dart';
-import 'package:photostock/features/common/repositories/photo_repository/photo_repository.dart';
+import 'package:photostock/api/photo_service/photo_service.dart';
+import 'package:photostock/features/photo/data/photo_repository/mappers/remote_to_domain.dart';
+import 'package:photostock/features/photo/data/photo_repository/photo_repository.dart';
+import 'package:photostock/features/photo/domain_models/photo.dart';
 
 /// Photo repository implementation.
 class PhotoRepository implements IPhotoRepository {
   /// Default constructor.
   const PhotoRepository({
-    required UnsplashService unsplashService,
-  }) : _unsplashService = unsplashService;
+    required UnsplashApi unsplashApi,
+  }) : _unsplashApi = unsplashApi;
 
-  final UnsplashService _unsplashService;
-
-  // Заглушка пока что
-  @override
-  Future<List<Photo>> getPhotos() async {
-    final photos = <Photo>[];
-
-    return photos;
-  }
+  final UnsplashApi _unsplashApi;
 
   @override
   Future<List<Photo>> getPhotosFromNetwork() async {
@@ -28,7 +20,7 @@ class PhotoRepository implements IPhotoRepository {
         'client_id',
       );
 
-      final photosFromNetwork = await _unsplashService.getPhotos(
+      final photosFromNetwork = await _unsplashApi.getPhotos(
         clientId: clientId,
       );
 
