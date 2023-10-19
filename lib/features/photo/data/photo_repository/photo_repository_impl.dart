@@ -1,38 +1,43 @@
-import 'package:photostock/api/photo_service/photo_service.dart';
-import 'package:photostock/features/photo/data/photo_repository/mappers/remote_to_domain.dart';
-import 'package:photostock/features/photo/data/photo_repository/photo_repository.dart';
-import 'package:photostock/features/photo/domain_models/photo.dart';
+import 'package:blurhash/blurhash.dart';
+import 'package:photostock/api/photo_api/photo_api.dart';
+import 'package:photostock/features/photo/data/data.dart';
+import 'package:photostock/features/photo/domain/domain.dart';
 
 /// Photo repository implementation.
 class PhotoRepository implements IPhotoRepository {
   /// Default constructor.
   const PhotoRepository({
-    required UnsplashApi unsplashApi,
-  }) : _unsplashApi = unsplashApi;
+    required PhotoApi photoApi,
+  }) : _photoApi = photoApi;
 
-  final UnsplashApi _unsplashApi;
+  final PhotoApi _photoApi;
 
   @override
-  Future<List<Photo>> getPhotosFromNetwork() async {
+  Future<List<Photo>> getPhotos() async {
     try {
-      // Анализатор сходит с ума и считает это за ошибку почему-то
+      // TODO(me): fix String.fromEnvironment
       const clientId = String.fromEnvironment(
         'client_id',
       );
 
-      final photosFromNetwork = await _unsplashApi.getPhotos(
+      final photosFromNetwork = await _photoApi.getPhotos(
         clientId: clientId,
       );
 
       final photos = <Photo>[];
 
       for (final photoRM in photosFromNetwork) {
-        final photo = await photoRM.toDomain();
+        final blurHashImage = await BlurHash.decode(photoRM.blurHash, 158, 158);
+
+        final photo = await photoRM.toDomain(
+          blurHashImage: blurHashImage,
+        );
         photos.add(photo);
       }
 
       return photos;
     } catch (e) {
+      // TODO(me): implement errors handling
       rethrow;
     }
   }

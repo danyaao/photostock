@@ -68,7 +68,7 @@ class AppScope implements IAppScope {
     final dio = Dio();
 
     dio.options
-      ..baseUrl = 'https://api.unsplash.com/'
+      ..baseUrl = Environment.instance().config.url
       ..connectTimeout = timeout
       ..receiveTimeout = timeout
       ..sendTimeout = timeout;
