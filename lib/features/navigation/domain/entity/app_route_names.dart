@@ -7,7 +7,7 @@
 /// ```
 abstract class AppRouteNames {
   /// TempScreen route name.
-  static const String tempScreen = 'tempRouter';
+  static const String photoListScreen = 'photoListRouter';
 
   /// TempScreen route name.
   static const String uiKitScreen = 'uiKitRouter';

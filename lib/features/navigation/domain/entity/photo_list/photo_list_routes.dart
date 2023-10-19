@@ -5,11 +5,11 @@ import 'package:photostock/features/navigation/domain/entity/debug/debug_routes.
 import 'package:photostock/features/navigation/domain/entity/info/info_routes.dart';
 import 'package:photostock/features/navigation/service/router.dart';
 
-/// All routes for the temp feature.
-final tempRoutes = AutoRoute(
-  page: TempRouter.page,
+/// All routes for the info feature.
+final photoListRoutes = AutoRoute(
+  page: PhotoListRouter.page,
+  path: AppRoutePaths.photoListPath,
   initial: true,
-  path: AppRoutePaths.tempPath,
   children: [
     dashRoutes,
     infoRoutes,
