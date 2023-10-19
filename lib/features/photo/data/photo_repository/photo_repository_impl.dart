@@ -13,7 +13,9 @@ class PhotoRepository implements IPhotoRepository {
   final PhotoApi _photoApi;
 
   @override
-  Future<List<Photo>> getPhotos() async {
+  Future<List<Photo>> getPhotos({
+    required int page,
+  }) async {
     try {
       // TODO(me): fix String.fromEnvironment
       const clientId = String.fromEnvironment(
@@ -22,6 +24,7 @@ class PhotoRepository implements IPhotoRepository {
 
       final photosFromNetwork = await _photoApi.getPhotos(
         clientId: clientId,
+        page: page,
       );
 
       final photos = <Photo>[];
