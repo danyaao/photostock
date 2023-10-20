@@ -16,8 +16,21 @@ class PhotoListModel extends ElementaryModel {
       UnionStateNotifier<List<Photo>>.loading();
 
   /// Load photos method.
-  Future<void> getPhotos() async {
-    final newPhotos = await _photoRepository.getPhotos();
+  Future<void> getPhotos({
+    required int page,
+  }) async {
+    final newPhotos = await _photoRepository.getPhotos(page: page);
     photos.content(newPhotos);
+  }
+
+  /// Load new page method.
+  Future<void> loadNewPage({
+    required int currentPage,
+  }) async {
+    final oldPhotos = photos.value.data ?? [];
+    final newPhotos = await _photoRepository.getPhotos(page: currentPage + 1);
+    oldPhotos.addAll(newPhotos);
+    final updatedPhotos = oldPhotos.toList();
+    photos.content(updatedPhotos);
   }
 }

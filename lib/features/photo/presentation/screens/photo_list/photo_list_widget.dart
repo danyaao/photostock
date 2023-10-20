@@ -29,6 +29,7 @@ class PhotoListWidget extends ElementaryWidget<IPhotoListWidgetModel> {
               photos: photos,
               onRefresh: wm.onRefresh,
               onPhotoSelected: wm.onPhotoSelected,
+              scrollController: wm.scrollController,
             );
           },
           // Можно по идее попробовать сделать что-то такое
