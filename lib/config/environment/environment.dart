@@ -2,13 +2,9 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
 import 'package:photostock/config/app_config.dart';
 import 'package:photostock/config/environment/build_types.dart';
-import 'package:photostock/features/common/service/log_history/log_history_service_impl.dart';
 import 'package:photostock/persistence/storage/config_storage/config_storage.dart';
-import 'package:photostock/util/log_history.dart';
-import 'package:surf_logger/surf_logger.dart' as surf;
 
 /// Environment configuration.
 class Environment implements Listenable {
@@ -71,19 +67,6 @@ class Environment implements Listenable {
     final savedProxy = await storage.getProxyUrl();
     if (savedProxy?.isNotEmpty ?? false) {
       config = config.copyWith(proxyUrl: savedProxy);
-    }
-  }
-
-  /// Add strategy to logger for save logs history for qa environment.
-  Future<void> createLogHistoryStrategy() async {
-    if (_currentBuildType == BuildType.qa) {
-      final file = await const LogHistoryServiceImpl().logHistoryFile();
-      final logger = Logger(
-        output: FileCustomOutput(file: file),
-        printer: PrettyPrinter(lineLength: 80, noBoxingByDefault: true),
-      );
-
-      surf.Logger.addStrategy(LogHistoryStrategy(logger));
     }
   }
 

@@ -10,21 +10,20 @@ dependencies:
   dio: ^5.3.3
   elementary: ^3.0.0
   elementary_helper: ^1.0.1
-  firebase_core: ^2.17.0
-  firebase_crashlytics: ^3.3.7
+  firebase_core: ^2.18.0
+  firebase_crashlytics: ^3.4.0
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
   intl: any
   json_annotation: ^4.8.1
-  logger: any
   path: ^1.8.3
   path_provider: ^2.1.1
   provider: ^6.0.5
   retrofit: ^4.0.3
   shared_preferences: ^2.2.2
-  surf_logger: ^1.1.0
+  union_state: ^0.0.1
 
 dev_dependencies:
   auto_route_generator: ^7.3.2

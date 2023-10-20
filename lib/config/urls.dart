@@ -3,7 +3,7 @@ import 'package:photostock/config/environment/environment.dart';
 /// Server urls.
 abstract class Url {
   /// TRest url.
-  static String get testUrl => 'http://uinames.com/api/';
+  static String get testUrl => 'https://api.unsplash.com/';
 
   /// Prod url.
   static String get prodUrl => 'https://prod.surfstudio.ru/api';
