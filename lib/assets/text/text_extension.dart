@@ -21,6 +21,12 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
   /// Text style 16_124_700.
   final TextStyle bold16;
 
+  /// Text style with Manrope family and weight 700
+  final TextStyle regularManrope;
+
+  /// Text style with Manrope family and weight 400
+  final TextStyle boldManrope;
+
   AppTextTheme._({
     required this.regular14,
     required this.regular16,
@@ -28,6 +34,8 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
     required this.medium16,
     required this.bold14,
     required this.bold16,
+    required this.regularManrope,
+    required this.boldManrope,
   });
 
   /// Base app text theme.
@@ -37,7 +45,9 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
         medium14 = AppTextStyle.medium14.value,
         medium16 = AppTextStyle.medium16.value,
         bold14 = AppTextStyle.bold14.value,
-        bold16 = AppTextStyle.bold16.value;
+        bold16 = AppTextStyle.bold16.value,
+        regularManrope = AppTextStyle.regularManrope.value,
+        boldManrope = AppTextStyle.boldManrope.value;
 
   @override
   ThemeExtension<AppTextTheme> lerp(
@@ -55,6 +65,8 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
       medium16: TextStyle.lerp(medium16, other.medium16, t)!,
       bold14: TextStyle.lerp(bold14, other.bold14, t)!,
       bold16: TextStyle.lerp(bold16, other.bold16, t)!,
+      regularManrope: TextStyle.lerp(regularManrope, other.regularManrope, t)!,
+      boldManrope: TextStyle.lerp(boldManrope, other.boldManrope, t)!,
     );
   }
 
@@ -64,7 +76,6 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
         _throwThemeExceptionFromFunc(context);
   }
 
-  /// @nodoc.
   @override
   ThemeExtension<AppTextTheme> copyWith({
     TextStyle? regular14,
@@ -73,6 +84,8 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
     TextStyle? medium16,
     TextStyle? bold14,
     TextStyle? bold16,
+    TextStyle? regularManrope,
+    TextStyle? boldManrope,
   }) {
     return AppTextTheme._(
       regular14: regular14 ?? this.regular14,
@@ -81,9 +94,11 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
       medium16: medium16 ?? this.medium16,
       bold14: bold14 ?? this.bold14,
       bold16: bold16 ?? this.bold16,
+      regularManrope: regularManrope ?? this.regularManrope,
+      boldManrope: boldManrope ?? this.boldManrope,
     );
   }
 }
 
 Never _throwThemeExceptionFromFunc(BuildContext context) =>
-    throw Exception('$AppTextTheme не найдена в $context');
+    throw Exception('$AppTextTheme not found in context $context');

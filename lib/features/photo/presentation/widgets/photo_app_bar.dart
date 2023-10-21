@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photostock/assets/text/text_extension.dart';
 
 /// Animated app bar for photo list.
 class PhotoAppBar extends StatelessWidget {
@@ -7,31 +8,38 @@ class PhotoAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = Theme.of(context).textTheme;
-
     return SliverAppBar(
-      elevation: 10,
-      automaticallyImplyLeading: false,
-      expandedHeight: 60,
-      toolbarHeight: 30,
-      collapsedHeight: 30,
-      floating: true,
-      snap: true,
+      expandedHeight: 90,
+      pinned: true,
+      backgroundColor: Colors.white.withOpacity(0.95),
       flexibleSpace: LayoutBuilder(
-        builder: (_, __) {
+        builder: (context, constraints) {
+          final top = constraints.biggest.height;
+          final text = AppTextTheme.of(context);
+
           return FlexibleSpaceBar(
             centerTitle: true,
-            title: AnimatedOpacity(
-              duration: const Duration(milliseconds: 300),
-              opacity: 1,
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Text(
+            title: AnimatedAlign(
+              duration: const Duration(milliseconds: 500),
+              alignment:
+                  top > 80 ? Alignment.bottomLeft : Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(left: top > 80 ? 12 : 0),
+                child: AnimatedDefaultTextStyle(
+                  duration: const Duration(microseconds: 500),
+                  // TODO(me): remove hardcode.
+                  child: const Text(
                     'Photos',
-                    style: text.titleSmall,
                   ),
+                  style: top > 80
+                      ? text.boldManrope.copyWith(
+                          fontSize: 24,
+                          color: Colors.black,
+                        )
+                      : text.boldManrope.copyWith(
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
                 ),
               ),
             ),

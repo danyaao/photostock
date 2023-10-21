@@ -57,7 +57,7 @@ class _AppState extends State<App> {
           return MaterialApp.router(
             theme: AppThemeData.lightTheme,
             darkTheme: AppThemeData.darkTheme,
-            themeMode: _themeService.currentThemeMode,
+            themeMode: ThemeMode.light,
 
             /// Localization.
             locale: _localizations.first,

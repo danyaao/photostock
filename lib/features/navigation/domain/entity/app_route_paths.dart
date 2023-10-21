@@ -8,4 +8,7 @@
 abstract class AppRoutePaths {
   /// Path to photo list screen.
   static const String photoListPath = '/photo_list';
+
+  /// Path to photo details screen.
+  static const String photoDetailsPath = '/photo_details';
 }
