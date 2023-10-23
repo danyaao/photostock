@@ -22,10 +22,10 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
   final TextStyle bold16;
 
   /// Text style with Manrope family and weight 700
-  final TextStyle regularManrope;
+  final TextStyle regular;
 
   /// Text style with Manrope family and weight 400
-  final TextStyle boldManrope;
+  final TextStyle bold;
 
   AppTextTheme._({
     required this.regular14,
@@ -34,8 +34,8 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
     required this.medium16,
     required this.bold14,
     required this.bold16,
-    required this.regularManrope,
-    required this.boldManrope,
+    required this.regular,
+    required this.bold,
   });
 
   /// Base app text theme.
@@ -46,8 +46,8 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
         medium16 = AppTextStyle.medium16.value,
         bold14 = AppTextStyle.bold14.value,
         bold16 = AppTextStyle.bold16.value,
-        regularManrope = AppTextStyle.regularManrope.value,
-        boldManrope = AppTextStyle.boldManrope.value;
+        regular = AppTextStyle.regular.value,
+        bold = AppTextStyle.bold.value;
 
   @override
   ThemeExtension<AppTextTheme> lerp(
@@ -65,8 +65,8 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
       medium16: TextStyle.lerp(medium16, other.medium16, t)!,
       bold14: TextStyle.lerp(bold14, other.bold14, t)!,
       bold16: TextStyle.lerp(bold16, other.bold16, t)!,
-      regularManrope: TextStyle.lerp(regularManrope, other.regularManrope, t)!,
-      boldManrope: TextStyle.lerp(boldManrope, other.boldManrope, t)!,
+      regular: TextStyle.lerp(regular, other.regular, t)!,
+      bold: TextStyle.lerp(bold, other.bold, t)!,
     );
   }
 
@@ -84,8 +84,8 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
     TextStyle? medium16,
     TextStyle? bold14,
     TextStyle? bold16,
-    TextStyle? regularManrope,
-    TextStyle? boldManrope,
+    TextStyle? regular,
+    TextStyle? bold,
   }) {
     return AppTextTheme._(
       regular14: regular14 ?? this.regular14,
@@ -94,8 +94,8 @@ class AppTextTheme extends ThemeExtension<AppTextTheme> {
       medium16: medium16 ?? this.medium16,
       bold14: bold14 ?? this.bold14,
       bold16: bold16 ?? this.bold16,
-      regularManrope: regularManrope ?? this.regularManrope,
-      boldManrope: boldManrope ?? this.boldManrope,
+      regular: regular ?? this.regular,
+      bold: bold ?? this.bold,
     );
   }
 }

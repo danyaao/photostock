@@ -1,12 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:photostock/features/navigation/navigation.dart';
 import 'package:photostock/features/photo/domain/domain.dart';
 import 'package:photostock/features/photo/presentation/screens/photo_list/photo_list.dart';
 import 'package:photostock/features/photo/presentation/widgets/widgets.dart';
 import 'package:union_state/union_state.dart';
 
 /// Main widget for PhotoList module
+@RoutePage(name: AppRouteNames.photoListScreen)
 class PhotoListWidget extends ElementaryWidget<IPhotoListWidgetModel> {
   /// Default constructor
   const PhotoListWidget({

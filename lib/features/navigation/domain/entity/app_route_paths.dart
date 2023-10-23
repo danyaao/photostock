@@ -6,9 +6,12 @@
 /// static const String screenPath = 'screenPath';
 /// ```
 abstract class AppRoutePaths {
+  /// Path to photo root screen.
+  static const String photoRootPath = '/photos';
+
   /// Path to photo list screen.
-  static const String photoListPath = '/photo_list';
+  static const String photoListPath = '/list';
 
   /// Path to photo details screen.
-  static const String photoDetailsPath = '/photo_details';
+  static const String photoDetailsPath = '/details';
 }

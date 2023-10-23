@@ -59,25 +59,20 @@ class PhotoCard extends StatelessWidget {
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          photo.username,
-                          style: text.boldManrope.copyWith(
-                            fontSize: 12,
-                            color: Colors.white,
-                          ),
+                      Text(
+                        photo.username,
+                        style: text.bold.copyWith(
+                          fontSize: 12,
+                          color: Colors.white,
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '${photo.likesCount} likes',
-                          style: text.regularManrope.copyWith(
-                            fontSize: 10,
-                            color: Colors.white,
-                          ),
+                      Text(
+                        '${photo.likesCount} likes',
+                        style: text.regular.copyWith(
+                          fontSize: 10,
+                          color: Colors.white,
                         ),
                       ),
                     ],

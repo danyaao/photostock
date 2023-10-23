@@ -17,10 +17,8 @@ class PhotoRepository implements IPhotoRepository {
     required int page,
   }) async {
     try {
-      // TODO(me): fix String.fromEnvironment
-      const clientId = String.fromEnvironment(
-        'client_id',
-      );
+      // TODO(me): fix String.fromEnvironment.
+      const clientId = String.fromEnvironment('client_id');
 
       final photosFromNetwork = await _photoApi.getPhotos(
         clientId: clientId,
@@ -32,7 +30,7 @@ class PhotoRepository implements IPhotoRepository {
       for (final photoRM in photosFromNetwork) {
         final blurHashImage = await BlurHash.decode(photoRM.blurHash, 158, 158);
 
-        final photo = await photoRM.toDomain(
+        final photo = photoRM.toDomain(
           blurHashImage: blurHashImage,
         );
         photos.add(photo);

@@ -10,13 +10,13 @@ enum AppTextStyle {
   medium16(TextStyle(fontSize: 16, height: 1.24, fontWeight: FontWeight.w500)),
   bold14(TextStyle(fontSize: 14, height: 1.40, fontWeight: FontWeight.w700)),
   bold16(TextStyle(fontSize: 16, height: 1.24, fontWeight: FontWeight.w700)),
-  regularManrope(
+  regular(
     TextStyle(
       fontSize: 16,
       fontFamily: 'Manrope',
     ),
   ),
-  boldManrope(
+  bold(
     TextStyle(
       fontSize: 16,
       fontFamily: 'Manrope',

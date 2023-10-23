@@ -32,11 +32,11 @@ class PhotoAppBar extends StatelessWidget {
                     'Photos',
                   ),
                   style: top > 80
-                      ? text.boldManrope.copyWith(
+                      ? text.bold.copyWith(
                           fontSize: 24,
                           color: Colors.black,
                         )
-                      : text.boldManrope.copyWith(
+                      : text.bold.copyWith(
                           fontSize: 20,
                           color: Colors.black,
                         ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:photostock/features/app/di/app_scope.dart';
 import 'package:photostock/features/navigation/navigation.dart';
-import 'package:photostock/features/photo/di/photo_list_scope.dart';
+import 'package:photostock/features/photo/di/photo_scope.dart';
 import 'package:photostock/features/photo/domain/domain.dart';
 import 'package:photostock/features/photo/presentation/screens/photo_list/photo_list.dart';
 import 'package:provider/provider.dart';
@@ -34,12 +34,12 @@ abstract interface class IPhotoListWidgetModel implements IWidgetModel {
 
 /// Factory for widget model.
 PhotoListWidgetModel defaultPhotoListWidgetModelFactory(BuildContext context) {
-  final photoListScope = context.read<IPhotoListScope>();
+  final photoScope = context.read<IPhotoScope>();
 
   final appScope = context.read<IAppScope>().router;
 
   final model = PhotoListModel(
-    photoListScope: photoListScope,
+    photoListScope: photoScope,
   );
 
   return PhotoListWidgetModel(appRouter: appScope, model: model);
@@ -78,6 +78,7 @@ class PhotoListWidgetModel extends WidgetModel<PhotoListWidget, PhotoListModel>
     required int index,
   }) {
     final photo = unionStatePagingController.value.data?.itemList?[index];
+
     if (photo != null) {
       _appRouter.push(PhotoDetailsRouter(photo: photo));
     }
