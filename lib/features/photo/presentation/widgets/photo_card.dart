@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photostock/assets/text/text_extension.dart';
 import 'package:photostock/features/photo/domain/domain.dart';
 import 'package:photostock/util/extensions/extensions.dart';
 
@@ -15,7 +16,8 @@ class PhotoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = Theme.of(context).textTheme;
+    final text = AppTextTheme.of(context);
+
     return SizedBox(
       width: 182,
       height: 182,
@@ -57,24 +59,20 @@ class PhotoCard extends StatelessWidget {
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          photo.username,
-                          style: text.bodyMedium?.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                          ),
+                      Text(
+                        photo.username,
+                        style: text.bold.copyWith(
+                          fontSize: 12,
+                          color: Colors.white,
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          '${photo.likesCount} likes',
-                          style: text.bodySmall?.copyWith(
-                            color: Colors.white,
-                          ),
+                      Text(
+                        '${photo.likesCount} likes',
+                        style: text.regular.copyWith(
+                          fontSize: 10,
+                          color: Colors.white,
                         ),
                       ),
                     ],

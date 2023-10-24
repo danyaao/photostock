@@ -13,15 +13,17 @@ class PhotoRepository implements IPhotoRepository {
   final PhotoApi _photoApi;
 
   @override
-  Future<List<Photo>> getPhotos() async {
+  Future<List<Photo>> getPhotos({
+    required int page,
+  }) async {
     try {
-      // TODO(me): fix String.fromEnvironment
-      const clientId = String.fromEnvironment(
-        'client_id',
-      );
+      // TODO(me): fix String.fromEnvironment.
+      const clientId = String.fromEnvironment('client_id');
 
       final photosFromNetwork = await _photoApi.getPhotos(
         clientId: clientId,
+        page: page,
+
       );
 
       final photos = <Photo>[];
@@ -29,7 +31,7 @@ class PhotoRepository implements IPhotoRepository {
       for (final photoRM in photosFromNetwork) {
         final blurHashImage = await BlurHash.decode(photoRM.blurHash, 158, 158);
 
-        final photo = await photoRM.toDomain(
+        final photo = photoRM.toDomain(
           blurHashImage: blurHashImage,
         );
         photos.add(photo);

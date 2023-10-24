@@ -1,3 +1,2 @@
-//GENERATED BARREL FILE 
-export 'photo.dart'; 
-export 'photo_repository.dart'; 
+export 'photo.dart';
+export 'photo_repository.dart';

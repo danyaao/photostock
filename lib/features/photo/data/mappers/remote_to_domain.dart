@@ -6,9 +6,9 @@ import 'package:photostock/features/photo/domain/domain.dart';
 /// Remote to domain mapper for photo
 extension PhotoRemoteToDomain on PhotoResponseDTO {
   /// Mapper method
-  Future<Photo> toDomain({
+  Photo toDomain({
     required Uint8List? blurHashImage,
-  }) async {
+  }) {
     return Photo(
       url: urls.regular,
       username: user.username,

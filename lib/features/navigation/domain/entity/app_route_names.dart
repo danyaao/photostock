@@ -6,6 +6,12 @@
 /// static const String screenName = 'screenNameRoute';
 /// ```
 abstract class AppRouteNames {
-  /// Photo route name.
+  /// Photo list route name.
+  static const String photoRootScreen = 'photoRootRouter';
+
+  /// Photo list route name.
   static const String photoListScreen = 'photoListRouter';
+
+  /// Photo details route name.
+  static const String photoDetailsScreen = 'photoDetailsRouter';
 }

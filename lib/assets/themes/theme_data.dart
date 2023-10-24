@@ -28,10 +28,10 @@ abstract class AppThemeData {
       ),
     ),
     appBarTheme: AppBarTheme(
-      color: _lightColorScheme.primary,
+      color: _lightColorScheme.secondary,
       elevation: 0,
       iconTheme: IconThemeData(
-        color: _lightColorScheme.onPrimary,
+        color: _lightColorScheme.onSecondary
       ),
     ),
     scaffoldBackgroundColor: _lightColorScheme.background,
