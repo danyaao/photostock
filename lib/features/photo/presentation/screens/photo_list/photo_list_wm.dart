@@ -104,6 +104,7 @@ class PhotoListWidgetModel extends WidgetModel<PhotoListWidget, PhotoListModel>
     _unionStatePagingController.content(_pagingController);
   }
 
+
   @override
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
