@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:photostock/features/app/di/app_scope.dart';
-import 'package:provider/provider.dart';
 
 /// Factory that returns the dependency scope.
 typedef ScopeFactory<T> = T Function();
