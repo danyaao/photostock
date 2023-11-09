@@ -48,11 +48,11 @@ class PhotoListWidget extends ElementaryWidget<IPhotoListWidgetModel> {
                   child: CircularProgressIndicator(),
                 );
               },
-              failureBuilder: (_, exception, __) {
+              failureBuilder: (_, failure, __) {
                 return Center(
                   child: Column(
                     children: [
-                      Text('Whoops!\n$exception'),
+                      Text('Whoops!\n$failure'),
                       const SizedBox(
                         height: 100,
                       ),

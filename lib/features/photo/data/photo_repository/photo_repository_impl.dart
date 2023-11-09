@@ -2,6 +2,7 @@ import 'package:blurhash/blurhash.dart';
 import 'package:photostock/api/photo_api/photo_api.dart';
 import 'package:photostock/features/photo/data/data.dart';
 import 'package:photostock/features/photo/domain/domain.dart';
+import 'package:photostock/util/error_handler/error_handler.dart';
 
 /// Photo repository implementation.
 class PhotoRepository implements IPhotoRepository {
@@ -16,14 +17,13 @@ class PhotoRepository implements IPhotoRepository {
   Future<List<Photo>> getPhotos({
     required int page,
   }) async {
-    try {
-      // TODO(me): fix String.fromEnvironment.
+    return PhotoErrorHandler.handle(() async {
+      // ignore: do_not_use_environment
       const clientId = String.fromEnvironment('client_id');
 
       final photosFromNetwork = await _photoApi.getPhotos(
         clientId: clientId,
         page: page,
-
       );
 
       final photos = <Photo>[];
@@ -38,9 +38,6 @@ class PhotoRepository implements IPhotoRepository {
       }
 
       return photos;
-    } catch (e) {
-      // TODO(me): implement errors handling
-      rethrow;
-    }
+    });
   }
 }

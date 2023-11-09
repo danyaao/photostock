@@ -11,9 +11,7 @@ Future<void> run() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Fix orientation.
-  // TODO(init-project): change as needed or remove.
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  // TODO(init-project): Initialize Crashlytics.
   // PlatformDispatcher.instance.onError = (error, stack) {
   //   FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
   //
