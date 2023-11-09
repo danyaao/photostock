@@ -35,9 +35,38 @@ class _DiScopeState<T> extends State<DiScope<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return Provider<T>(
-      create: (_) => scope,
-      child: widget.child,
+    return Provider(
+      create: (context) => scope,
     );
   }
+}
+
+/// DI using inherited widget.
+class InheritedContainer<T> extends InheritedWidget {
+  /// Default constructor.
+  const InheritedContainer({
+    required super.child,
+    required this.scope,
+    super.key,
+  });
+
+  /// Scope data.
+  final T scope;
+
+  /// Maybe of method.
+  static T? maybeOf<T>(BuildContext context) {
+    return context
+        .getInheritedWidgetOfExactType<InheritedContainer<T>>()
+        ?.scope;
+  }
+
+  /// Read method.
+  static T read<T>(BuildContext context) {
+    final result = maybeOf<T>(context);
+    assert(result != null, 'No InheritedContainer found in context');
+    return result!;
+  }
+
+  @override
+  bool updateShouldNotify(InheritedContainer<T> oldWidget) => false;
 }
