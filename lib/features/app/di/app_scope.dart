@@ -8,7 +8,7 @@ import 'package:photostock/features/common/service/theme/theme_service_impl.dart
 import 'package:photostock/features/navigation/service/router.dart';
 import 'package:photostock/persistence/storage/theme_storage/theme_storage.dart';
 import 'package:photostock/persistence/storage/theme_storage/theme_storage_impl.dart';
-import 'package:photostock/util/default_error_handler.dart';
+import 'package:photostock/util/error_handler/default_error_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Scope of dependencies which need through all app's life.
@@ -73,6 +73,7 @@ class AppScope implements IAppScope {
       ..receiveTimeout = timeout
       ..sendTimeout = timeout;
 
+    // ignore: deprecated_member_use
     (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
         (client) {
       final proxyUrl = Environment.instance().config.proxyUrl;

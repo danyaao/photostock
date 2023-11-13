@@ -5,7 +5,6 @@ import 'package:photostock/features/common/widgets/di_scope/di_scope.dart';
 import 'package:photostock/features/navigation/navigation.dart';
 import 'package:photostock/features/photo/di/photo_scope.dart';
 import 'package:photostock/features/photo/presentation/screens/photo_list/photo_list.dart';
-import 'package:provider/provider.dart';
 
 ///  for photo repository.
 @RoutePage(name: AppRouteNames.photoRootScreen)
@@ -25,7 +24,8 @@ class _PhotoRootState extends State<PhotoRoot> {
   @override
   void initState() {
     super.initState();
-    final dio = context.read<IAppScope>().dio;
+    final appScope = InheritedContainer.read<IAppScope>(context);
+    final dio = appScope.dio;
     _photoScope = PhotoScope(dio: dio);
   }
 

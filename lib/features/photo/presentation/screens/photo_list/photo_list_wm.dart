@@ -2,11 +2,13 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:photostock/features/app/di/app_scope.dart';
+import 'package:photostock/features/common/mixin/action_handler_mixin.dart';
+import 'package:photostock/features/common/widgets/di_scope/di_scope.dart';
 import 'package:photostock/features/navigation/navigation.dart';
 import 'package:photostock/features/photo/di/photo_scope.dart';
 import 'package:photostock/features/photo/domain/domain.dart';
 import 'package:photostock/features/photo/presentation/screens/photo_list/photo_list.dart';
-import 'package:provider/provider.dart';
+import 'package:photostock/util/error_handler/error_handler.dart';
 import 'package:union_state/union_state.dart';
 
 /// Widget model for photo list screen.
@@ -34,19 +36,20 @@ abstract interface class IPhotoListWidgetModel implements IWidgetModel {
 
 /// Factory for widget model.
 PhotoListWidgetModel defaultPhotoListWidgetModelFactory(BuildContext context) {
-  final photoScope = context.read<IPhotoScope>();
+  final photoScope = InheritedContainer.read<IPhotoScope>(context);
 
-  final appScope = context.read<IAppScope>().router;
+  final appRouter = InheritedContainer.read<IAppScope>(context).router;
 
   final model = PhotoListModel(
     photoListScope: photoScope,
   );
 
-  return PhotoListWidgetModel(appRouter: appScope, model: model);
+  return PhotoListWidgetModel(appRouter: appRouter, model: model);
 }
 
 /// Default widget model for PhotoListWidget.
 class PhotoListWidgetModel extends WidgetModel<PhotoListWidget, PhotoListModel>
+    with UnionStateActionHandlerMixin
     implements IPhotoListWidgetModel {
   /// Default constructor
   PhotoListWidgetModel(
@@ -77,7 +80,7 @@ class PhotoListWidgetModel extends WidgetModel<PhotoListWidget, PhotoListModel>
   void onPhotoSelected({
     required int index,
   }) {
-    final photo = unionStatePagingController.value.data?.itemList?[index];
+    final photo = _unionStatePagingController.value.data?.itemList?[index];
 
     if (photo != null) {
       _appRouter.push(PhotoDetailsRouter(photo: photo));
@@ -88,22 +91,22 @@ class PhotoListWidgetModel extends WidgetModel<PhotoListWidget, PhotoListModel>
   Future<void> onPageRequested({
     required int page,
   }) async {
-    try {
-      final newPhotos = await model.loadNewPage(page: page);
-      final isLastPage = newPhotos.length < 10;
-      if (isLastPage) {
-        _pagingController.appendLastPage(newPhotos);
-      } else {
-        final nextPage = page + newPhotos.length;
-        _pagingController.appendPage(newPhotos, nextPage);
-      }
-    } catch (e) {
-      // TODO(me): Implement error handling.
-      _pagingController.error = e;
-    }
-    _unionStatePagingController.content(_pagingController);
-  }
+    await handleUnionStateAction(
+      action: () async {
+        final newPhotos = await model.loadNewPage(page: page);
+        final isLastPage = newPhotos.length < 10;
+        if (isLastPage) {
+          _pagingController.appendLastPage(newPhotos);
+        } else {
+          final nextPage = page + newPhotos.length;
+          _pagingController.appendPage(newPhotos, nextPage);
+        }
 
+        return _pagingController;
+      },
+      unionStateNotifier: _unionStatePagingController,
+    );
+  }
 
   @override
   Future<void> initWidgetModel() async {

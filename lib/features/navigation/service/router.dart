@@ -25,8 +25,6 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         photoRootRoutes,
-        // TODO(me): Почему-то не работают чайлд роуты.
-        // Пока сделал так. На дейли бы обсудить.
         photoListRoutes,
         photoDetailsRoutes,
       ];
