@@ -71,7 +71,7 @@ class AppScope implements IAppScope {
       ..connectTimeout = timeout
       ..receiveTimeout = timeout
       ..sendTimeout = timeout;
-
+    
     dio.interceptors.addAll(additionalInterceptors);
 
     if (Environment.instance().isDebug) {

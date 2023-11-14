@@ -10,7 +10,6 @@ Future<void> run() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Fix orientation.
-  //await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // PlatformDispatcher.instance.onError = (error, stack) {
   //   FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
   //

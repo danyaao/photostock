@@ -8,6 +8,7 @@ import 'package:photostock/features/navigation/navigation.dart';
 import 'package:photostock/features/photo/di/photo_scope.dart';
 import 'package:photostock/features/photo/domain/domain.dart';
 import 'package:photostock/features/photo/presentation/screens/photo_list/photo_list.dart';
+import 'package:photostock/util/error_handler/error_handler.dart';
 import 'package:union_state/union_state.dart';
 
 /// Widget model for photo list screen.
