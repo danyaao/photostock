@@ -6,7 +6,10 @@
 /// static const String screenName = 'screenNameRoute';
 /// ```
 abstract class AppRouteNames {
-  /// Photo list route name.
+  /// Home tabs route name.
+  static const String homeTabsScreen = 'homeTabsRouter';
+
+  /// Photo root route name.
   static const String photoRootScreen = 'photoRootRouter';
 
   /// Photo list route name.
@@ -14,4 +17,7 @@ abstract class AppRouteNames {
 
   /// Photo details route name.
   static const String photoDetailsScreen = 'photoDetailsRouter';
+
+  /// Favorite list route name.
+  static const String favoriteListScreen = 'favoriteListRouter';
 }

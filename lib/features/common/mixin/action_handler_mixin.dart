@@ -1,9 +1,11 @@
+import 'package:elementary/elementary.dart';
 import 'package:photostock/features/common/domain/entity/failure/common_failure.dart';
 import 'package:photostock/features/common/domain/entity/failure/failure.dart';
 import 'package:union_state/union_state.dart';
 
 /// Actions handler.
-mixin UnionStateActionHandlerMixin {
+mixin UnionStateActionHandlerMixin<W extends ElementaryWidget<IWidgetModel>,
+    M extends ElementaryModel> on WidgetModel<W, M> {
   /// Handle action method.
   Future<void> handleUnionStateAction<T>({
     required Future<T> Function() action,

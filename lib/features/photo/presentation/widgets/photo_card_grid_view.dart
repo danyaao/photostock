@@ -38,11 +38,10 @@ class PhotoCardGridView extends StatelessWidget {
         ),
         builderDelegate: PagedChildBuilderDelegate(
           itemBuilder: (_, photo, index) {
-            return InkWell(
-              onTap: () {
-                onPhotoSelected(index);
-              },
-              child: PhotoCard(photo: photo),
+            return PhotoCard(
+              photo: photo,
+              onTap: onPhotoSelected,
+              index: index,
             );
           },
         ),
