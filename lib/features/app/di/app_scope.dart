@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:dio/io.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:photostock/config/environment/environment.dart';
@@ -63,7 +62,7 @@ class AppScope implements IAppScope {
   }
 
   Dio _initDio(Iterable<Interceptor> additionalInterceptors) {
-    const timeout = Duration(seconds: 30);
+    const timeout = Duration(seconds: 5);
 
     final dio = Dio();
 
@@ -72,24 +71,7 @@ class AppScope implements IAppScope {
       ..connectTimeout = timeout
       ..receiveTimeout = timeout
       ..sendTimeout = timeout;
-
-    // ignore: deprecated_member_use
-    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
-        (client) {
-      final proxyUrl = Environment.instance().config.proxyUrl;
-      if (proxyUrl != null && proxyUrl.isNotEmpty) {
-        client
-          ..findProxy = (uri) {
-            return 'PROXY $proxyUrl';
-          }
-          ..badCertificateCallback = (_, __, ___) {
-            return true;
-          };
-      }
-
-      return client;
-    };
-
+    
     dio.interceptors.addAll(additionalInterceptors);
 
     if (Environment.instance().isDebug) {

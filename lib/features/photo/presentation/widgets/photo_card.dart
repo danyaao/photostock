@@ -8,11 +8,19 @@ class PhotoCard extends StatelessWidget {
   /// Default constructor.
   const PhotoCard({
     required this.photo,
+    required this.onTap,
+    required this.index,
     super.key,
   });
 
-  /// Photo model to show
+  /// Photo model to show.
   final Photo photo;
+
+  /// On tap photo action.
+  final ValueSetter<int> onTap;
+
+  /// Photo index.
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -28,58 +36,62 @@ class PhotoCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
           ),
           shadowColor: photo.shadowColor.toColor(),
-          child: Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Image.network(
-                  photo.url,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: double.infinity,
-                  loadingBuilder: (_, child, imageChunkEvent) {
-                    if (imageChunkEvent == null) return child;
-                    return Center(
-                      child: Image.memory(
-                        photo.blurHashImage,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16,
-                    bottom: 10,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        photo.username,
-                        style: text.bold.copyWith(
-                          fontSize: 12,
-                          color: Colors.white,
+          child: InkWell(
+            onTap: () => onTap(index),
+            borderRadius: BorderRadius.circular(30),
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.network(
+                    photo.url,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                    loadingBuilder: (_, child, imageChunkEvent) {
+                      if (imageChunkEvent == null) return child;
+                      return Center(
+                        child: Image.memory(
+                          photo.blurHashImage,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
                         ),
-                      ),
-                      Text(
-                        '${photo.likesCount} likes',
-                        style: text.regular.copyWith(
-                          fontSize: 10,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
-              ),
-            ],
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      bottom: 10,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          photo.username,
+                          style: text.bold.copyWith(
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          '${photo.likesCount} likes',
+                          style: text.regular.copyWith(
+                            fontSize: 10,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

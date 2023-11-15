@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:photostock/features/app/app.dart';
 import 'package:photostock/features/app/di/app_scope_register.dart';
@@ -11,7 +10,6 @@ Future<void> run() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Fix orientation.
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // PlatformDispatcher.instance.onError = (error, stack) {
   //   FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
   //

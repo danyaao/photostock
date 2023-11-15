@@ -6,12 +6,18 @@
 /// static const String screenPath = 'screenPath';
 /// ```
 abstract class AppRoutePaths {
+  /// Path to home tabs screen.
+  static const String homeTabsPath = '/';
+
   /// Path to photo root screen.
-  static const String photoRootPath = '/photos';
+  static const String photoRootPath = 'photo';
 
   /// Path to photo list screen.
-  static const String photoListPath = '/list';
+  static const String photoListPath = 'list';
 
   /// Path to photo details screen.
-  static const String photoDetailsPath = '/details';
+  static const String photoDetailsPath = 'details';
+
+  /// Path to favorite list screen.
+  static const String favoriteListPath = 'favorite';
 }

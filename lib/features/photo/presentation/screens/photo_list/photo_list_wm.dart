@@ -49,7 +49,7 @@ PhotoListWidgetModel defaultPhotoListWidgetModelFactory(BuildContext context) {
 
 /// Default widget model for PhotoListWidget.
 class PhotoListWidgetModel extends WidgetModel<PhotoListWidget, PhotoListModel>
-    with UnionStateActionHandlerMixin
+    with UnionStateActionHandlerMixin<PhotoListWidget, PhotoListModel>
     implements IPhotoListWidgetModel {
   /// Default constructor
   PhotoListWidgetModel(
