@@ -7,12 +7,16 @@ part 'photo_response_dto.g.dart';
 class PhotoResponseDTO {
   /// Default constructor.
   const PhotoResponseDTO({
+    required this.id,
     required this.urls,
     required this.user,
     required this.likesCount,
     required this.shadowColor,
     required this.blurHash,
   });
+
+  /// Photo id from Api.
+  final String id;
 
   /// Photo urls.
   final PhotoUrlsResponseDTO urls;

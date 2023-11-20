@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:photostock/features/photo/domain/domain.dart';
+import 'package:photostock/features/photo/domain/entity/photo.dart';
 import 'package:photostock/features/photo/presentation/widgets/photo_card.dart';
 
 /// Grid view for photo cards.

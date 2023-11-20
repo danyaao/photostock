@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photostock/assets/text/text_extension.dart';
-import 'package:photostock/features/photo/domain/domain.dart';
+import 'package:photostock/features/photo/domain/entity/photo.dart';
 import 'package:photostock/util/extensions/extensions.dart';
 
 /// Photo card widget.
@@ -52,7 +52,7 @@ class PhotoCard extends StatelessWidget {
                       if (imageChunkEvent == null) return child;
                       return Center(
                         child: Image.memory(
-                          photo.blurHashImage,
+                          photo.blurHash,
                           fit: BoxFit.cover,
                           width: double.infinity,
                           height: double.infinity,

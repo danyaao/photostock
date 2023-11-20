@@ -1,21 +1,29 @@
 import 'package:elementary/elementary.dart';
-import 'package:photostock/features/photo/di/photo_scope.dart';
-import 'package:photostock/features/photo/domain/domain.dart';
+import 'package:photostock/features/photo/domain/entity/photo.dart';
+import 'package:photostock/features/photo/domain/repository/photo_api_repository.dart';
 
-/// Default Elementary model for PhotoList module.
-class PhotoListModel extends ElementaryModel {
-  /// Default constructor.
-  PhotoListModel({
-    required IPhotoScope photoListScope,
-  }) : _photoScope = photoListScope;
-
-  final IPhotoScope _photoScope;
-
-  /// Load new page method.
+/// Interface of [PhotoListModel].
+abstract interface class IPhotoListModel extends ElementaryModel {
+  /// Load new photo list.
   Future<List<Photo>> loadNewPage({
-    required int page,
+    required int pageKey,
+  });
+}
+
+/// Model for PhotoList screen.
+class PhotoListModel extends ElementaryModel implements IPhotoListModel {
+  /// Create an instance [PhotoListModel].
+  PhotoListModel({
+    required IPhotoApiRepository photoApiRepository,
+  }) : _photoApiRepository = photoApiRepository;
+
+  final IPhotoApiRepository _photoApiRepository;
+
+  @override
+  Future<List<Photo>> loadNewPage({
+    required int pageKey,
   }) async {
-    final newPhotos = await _photoScope.photoRepository.getPhotos(page: page);
+    final newPhotos = await _photoApiRepository.getPhotoList(pageKey: pageKey);
 
     return newPhotos;
   }
