@@ -1,5 +1,4 @@
 import 'package:elementary/elementary.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:photostock/core/di/inherited_container.dart';
 import 'package:photostock/features/app/di/app_scope.dart';
@@ -8,14 +7,18 @@ import 'package:photostock/features/photo/data/repository/photo_storage_reposito
 import 'package:photostock/features/photo/domain/entity/photo.dart';
 import 'package:photostock/features/photo/presentation/screens/photo_details/photo_details_model.dart';
 import 'package:photostock/features/photo/presentation/screens/photo_details/photo_details_widget.dart';
+import 'package:union_state/union_state.dart';
 
 /// Interface of [PhotoDetailsWidgetModel].
 abstract interface class IPhotoDetailsWidgetModel implements IWidgetModel {
+  /// [UnionStateNotifier] for [Photo].
+  UnionStateNotifier<Photo> get photo;
+
   /// [TextEditingController] for note form.
   TextEditingController get noteTextEditingController;
 
-  /// Is [Photo] in favorite.
-  ValueNotifier<bool> get isFavorite;
+  /// [GlobalKey] for validation.
+  GlobalKey<FormState> get formKey;
 
   /// Route back.
   void onBackButtonTap();
@@ -24,7 +27,7 @@ abstract interface class IPhotoDetailsWidgetModel implements IWidgetModel {
   void onFavoriteButtonTap();
 
   /// Add note.
-  void onNoteSave();
+  void onSaveNote();
 }
 
 /// Widget model for PhotoDetails screen.
@@ -38,25 +41,32 @@ class PhotoDetailsWidgetModel
   })  : _appRouter = appRouter,
         super(model);
 
-  final _isFavorite = ValueNotifier(false);
-
   final AppRouter _appRouter;
+
+  final UnionStateNotifier<Photo> _photo = UnionStateNotifier.loading();
+
+  @override
+  UnionStateNotifier<Photo> get photo => _photo;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  GlobalKey<FormState> get formKey => _formKey;
 
   final TextEditingController _noteTextEditingController =
       TextEditingController();
 
   @override
-  Future<void> initWidgetModel() async {
-    super.initWidgetModel();
-    _isFavorite.value = await model.isFavorite(photo: widget.photo);
-  }
-
-  @override
-  ValueNotifier<bool> get isFavorite => _isFavorite;
-
-  @override
   TextEditingController get noteTextEditingController =>
       _noteTextEditingController;
+
+  @override
+  Future<void> initWidgetModel() async {
+    super.initWidgetModel();
+    _photo.content(await model.maybeGetPhotoById(id: widget.photoFromList.id) ??
+        widget.photoFromList);
+    _noteTextEditingController.text = _photo.value.data?.note ?? '';
+  }
 
   @override
   void onBackButtonTap() {
@@ -65,14 +75,21 @@ class PhotoDetailsWidgetModel
 
   @override
   void onFavoriteButtonTap() {
-    model.toggleFavorite(photo: widget.photo);
-    _isFavorite.value = !_isFavorite.value;
+    model.toggleFavorite(photo: widget.photoFromList);
+    final currentPhoto = _photo.value.data;
+    if (currentPhoto != null) {
+      _photo.content(
+        currentPhoto.copyWith(
+          isFavorite: !currentPhoto.isFavorite,
+        ),
+      );
+    }
   }
 
   @override
-  void onNoteSave() {
+  void onSaveNote() {
     model.addNote(
-      photo: widget.photo,
+      photo: _photo.value.data ?? widget.photoFromList,
       note: _noteTextEditingController.text,
     );
   }

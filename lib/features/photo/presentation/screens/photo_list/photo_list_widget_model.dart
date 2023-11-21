@@ -65,7 +65,7 @@ class PhotoListWidgetModel extends WidgetModel<PhotoListWidget, IPhotoListModel>
     if (photo != null) {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => PhotoDetailsWidget(photo: photo),
+          builder: (context) => PhotoDetailsWidget(photoFromList: photo),
         ),
       );
     }

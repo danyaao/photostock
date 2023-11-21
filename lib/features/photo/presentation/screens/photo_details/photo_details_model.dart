@@ -4,7 +4,10 @@ import 'package:photostock/features/photo/domain/repository/photo_storage_reposi
 
 /// Interface of [PhotoDetailsModel].
 abstract interface class IPhotoDetailsModel extends ElementaryModel {
-  /// Is [photo] favorite getter.
+  /// Get [Photo] by id.
+  Future<Photo?> maybeGetPhotoById({required String id});
+
+  /// Is [Photo] favorite getter.
   Future<bool> isFavorite({required Photo photo});
 
   /// Delete or store [Photo].
@@ -25,6 +28,13 @@ class PhotoDetailsModel extends ElementaryModel implements IPhotoDetailsModel {
   }) : _photoStorageRepository = photoStorageRepository;
 
   final IPhotoStorageRepository _photoStorageRepository;
+
+  @override
+  Future<Photo?> maybeGetPhotoById({required String id}) {
+    final photo = _photoStorageRepository.maybeGetPhotoById(id: id);
+
+    return photo;
+  }
 
   @override
   Future<bool> isFavorite({required Photo photo}) {

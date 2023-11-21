@@ -12,6 +12,7 @@ extension PhotoRemoteToDomain on PhotoResponseDTO {
   }) {
     return Photo(
       id: id,
+      isFavorite: false,
       url: urls.regular,
       username: user.username,
       likesCount: likesCount,
@@ -27,6 +28,7 @@ extension PhotoStoredToDomain on StoredPhoto {
   Photo toDomain() {
     return Photo(
       id: id,
+      isFavorite: true,
       url: url,
       username: username,
       likesCount: likesCount,

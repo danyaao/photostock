@@ -28,7 +28,16 @@ class PhotoStorageRepository implements IPhotoStorageRepository {
   }
 
   @override
-  Future<void> upsertPhoto({required Photo photo}) async {
+  Future<Photo?> maybeGetPhotoById({required String id}) async {
+    final photoListSelect = _photoStorage.select(_photoStorage.storedPhotos)
+      ..where((tbl) => tbl.id.contains(id));
+
+    final photoList = await photoListSelect.get();
+
+    return photoList.isEmpty ? null : photoList.first.toDomain();
+  }
+
+  Future<void> _insertPhoto({required Photo photo}) async {
     await _photoStorage.into(_photoStorage.storedPhotos).insert(
           StoredPhotosCompanion.insert(
             id: photo.id,
@@ -40,6 +49,17 @@ class PhotoStorageRepository implements IPhotoStorageRepository {
             note: Value(photo.note),
           ),
         );
+  }
+
+  @override
+  Future<void> upsertPhoto({required Photo photo}) async {
+    final shouldDelete = await isFavorite(id: photo.id);
+    if (shouldDelete) {
+      await deletePhoto(id: photo.id);
+      await _insertPhoto(photo: photo);
+    } else {
+      await _insertPhoto(photo: photo);
+    }
   }
 
   @override
