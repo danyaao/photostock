@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:photostock/core/di/inherited_container.dart';
 import 'package:photostock/core/union_state/union_state_action_handler_mixin.dart';
-import 'package:photostock/features/app/di/app_scope.dart';
-import 'package:photostock/features/navigation/service/router.dart';
 import 'package:photostock/features/photo/di/photo_scope.dart';
 import 'package:photostock/features/photo/domain/entity/photo.dart';
 import 'package:photostock/features/photo/presentation/screens/favorite_list/favorite_list_model.dart';
 import 'package:photostock/features/photo/presentation/screens/favorite_list/favorite_list_widget.dart';
+import 'package:photostock/features/photo/presentation/screens/photo_details/photo_details_widget.dart';
 import 'package:union_state/union_state.dart';
 
 /// Interface of [FavoriteListWidgetModel].
@@ -34,11 +33,11 @@ class FavoriteListWidgetModel
   /// Create an instance of [FavoriteListWidgetModel].
   FavoriteListWidgetModel({
     required FavoriteListModel model,
-    required AppRouter appRouter,
-  })  : _appRouter = appRouter,
-        super(model);
+    //required AppRouter appRouter,
+  }) : super(model);
+  //_appRouter = appRouter;
 
-  final AppRouter _appRouter;
+  //final AppRouter _appRouter;
 
   final PagingController<int, Photo> _pagingController =
       PagingController(firstPageKey: 0);
@@ -61,8 +60,13 @@ class FavoriteListWidgetModel
   }) {
     final photo = _unionStatePagingController.value.data?.itemList?[index];
 
+    // TODO(me): Replace Navigator with AppRouter.
     if (photo != null) {
-      _appRouter.push(PhotoDetailsRouter(photo: photo));
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => PhotoDetailsWidget(photo: photo),
+        ),
+      );
     }
   }
 
@@ -71,7 +75,7 @@ class FavoriteListWidgetModel
   }) async {
     await handleUnionStateAction(
       action: () async {
-        _pagingController.appendLastPage(photoList);
+        _pagingController.value = PagingState(itemList: photoList);
 
         return _pagingController;
       },
@@ -108,10 +112,10 @@ FavoriteListWidgetModel createFavoriteListWidgetModel(
     photoStorageRepository: photoScope.photoStorageRepository,
   );
 
-  final appScope = InheritedContainer.read<IAppScope>(context);
+  //final appScope = InheritedContainer.read<IAppScope>(context);
 
   return FavoriteListWidgetModel(
     model: model,
-    appRouter: appScope.router,
+    //appRouter: appScope.router,
   );
 }

@@ -4,6 +4,9 @@ import 'package:photostock/features/photo/domain/repository/photo_storage_reposi
 
 /// Interface of [PhotoDetailsModel].
 abstract interface class IPhotoDetailsModel extends ElementaryModel {
+  /// Is [photo] favorite getter.
+  Future<bool> isFavorite({required Photo photo});
+
   /// Delete or store [Photo].
   Future<void> toggleFavorite({required Photo photo});
 
@@ -24,11 +27,16 @@ class PhotoDetailsModel extends ElementaryModel implements IPhotoDetailsModel {
   final IPhotoStorageRepository _photoStorageRepository;
 
   @override
+  Future<bool> isFavorite({required Photo photo}) {
+    return _photoStorageRepository.isFavorite(id: photo.id);
+  }
+
+  @override
   Future<void> toggleFavorite({required Photo photo}) async {
     final isFavorite = await _photoStorageRepository.isFavorite(id: photo.id);
 
     if (isFavorite) {
-      _photoStorageRepository.deletePhoto(id: photo.id);
+      await _photoStorageRepository.deletePhoto(id: photo.id);
     } else {
       await _photoStorageRepository.upsertPhoto(photo: photo);
     }

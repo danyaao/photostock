@@ -43,10 +43,11 @@ class PhotoStorageRepository implements IPhotoStorageRepository {
   }
 
   @override
-  void deletePhoto({required String id}) {
-    _photoStorage
-        .delete(_photoStorage.storedPhotos)
-        .where((tbl) => tbl.id.equals(id));
+  Future<void> deletePhoto({required String id}) async {
+    final deleteStatement = _photoStorage.delete(_photoStorage.storedPhotos)
+      ..where((tbl) => tbl.id.equals(id));
+
+    await deleteStatement.go();
   }
 
   @override

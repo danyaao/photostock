@@ -1,4 +1,5 @@
 import 'package:elementary/elementary.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:photostock/core/di/inherited_container.dart';
 import 'package:photostock/features/app/di/app_scope.dart';
@@ -13,14 +14,17 @@ abstract interface class IPhotoDetailsWidgetModel implements IWidgetModel {
   /// [TextEditingController] for note form.
   TextEditingController get noteTextEditingController;
 
+  /// Is [Photo] in favorite.
+  ValueNotifier<bool> get isFavorite;
+
   /// Route back.
   void onBackButtonTap();
 
   /// Add or delete from favorite.
-  void onFavoriteButtonTap({required Photo photo});
+  void onFavoriteButtonTap();
 
   /// Add note.
-  void onNoteSave({required Photo photo});
+  void onNoteSave();
 }
 
 /// Widget model for PhotoDetails screen.
@@ -34,10 +38,21 @@ class PhotoDetailsWidgetModel
   })  : _appRouter = appRouter,
         super(model);
 
+  final _isFavorite = ValueNotifier(false);
+
   final AppRouter _appRouter;
 
   final TextEditingController _noteTextEditingController =
       TextEditingController();
+
+  @override
+  Future<void> initWidgetModel() async {
+    super.initWidgetModel();
+    _isFavorite.value = await model.isFavorite(photo: widget.photo);
+  }
+
+  @override
+  ValueNotifier<bool> get isFavorite => _isFavorite;
 
   @override
   TextEditingController get noteTextEditingController =>
@@ -49,21 +64,24 @@ class PhotoDetailsWidgetModel
   }
 
   @override
-  void onFavoriteButtonTap({required Photo photo}) {
-    model.toggleFavorite(photo: photo);
+  void onFavoriteButtonTap() {
+    model.toggleFavorite(photo: widget.photo);
+    _isFavorite.value = !_isFavorite.value;
   }
 
   @override
-  void onNoteSave({required Photo photo}) {
+  void onNoteSave() {
     model.addNote(
-      photo: photo,
+      photo: widget.photo,
       note: _noteTextEditingController.text,
     );
   }
 }
 
 /// Factory for [PhotoDetailsWidgetModel].
-PhotoDetailsWidgetModel createPhotoDetailsWidgetModel(BuildContext context) {
+PhotoDetailsWidgetModel createPhotoDetailsWidgetModel(
+  BuildContext context,
+) {
   final appScope = InheritedContainer.read<IAppScope>(context);
   final photoStorageRepository =
       PhotoStorageRepository(photoStorage: appScope.photoStorage);

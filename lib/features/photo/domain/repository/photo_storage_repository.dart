@@ -11,7 +11,7 @@ abstract interface class IPhotoStorageRepository {
   });
 
   /// Delete [Photo] to storage.
-  void deletePhoto({
+  Future<void> deletePhoto({
     required String id,
   });
 

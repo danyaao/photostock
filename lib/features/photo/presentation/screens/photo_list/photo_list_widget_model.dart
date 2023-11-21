@@ -61,6 +61,7 @@ class PhotoListWidgetModel extends WidgetModel<PhotoListWidget, IPhotoListModel>
   }) {
     final photo = _unionStatePagingController.value.data?.itemList?[index];
 
+    // TODO(me): Replace Navigator with AppRouter.
     if (photo != null) {
       Navigator.of(context).push(
         MaterialPageRoute(
