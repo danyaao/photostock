@@ -33,81 +33,83 @@ class PhotoDetailsWidget extends ElementaryWidget<IPhotoDetailsWidgetModel> {
     );
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: UnionStateListenableBuilder(
-        unionStateListenable: wm.photo,
-        builder: (context, photo) {
-          return Column(
-            children: [
-              Stack(
-                children: [
-                  HalfScreenPhoto(photo: photo),
-                  ArrowBackButton(
-                    onBackButtonTap: wm.onBackButtonTap,
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 26),
-                child: Column(
+      body: SingleChildScrollView(
+        child: UnionStateListenableBuilder(
+          unionStateListenable: wm.photo,
+          builder: (context, photo) {
+            return Column(
+              children: [
+                Stack(
                   children: [
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            LeftAlignText(
-                              text: photo.username,
-                              textStyle: textStyle,
-                            ),
-                            LeftAlignText(
-                              text: '${photo.likesCount} likes',
-                              textStyle: textStyle,
-                            ),
-                          ],
-                        ),
-                        FavoriteButton(
-                          isFavorite: photo.isFavorite,
-                          onTap: wm.onFavoriteButtonTap,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    const LeftAlignText(
-                      text: 'Note:',
-                      textStyle: textStyle,
-                    ),
-                    const SizedBox(height: 10),
-                    NoteForm(
-                      formKey: wm.formKey,
-                      controller: wm.noteTextEditingController,
-                      onSaveNote: wm.onSaveNote,
-                      isEnabled: photo.isFavorite,
+                    HalfScreenPhoto(photo: photo),
+                    ArrowBackButton(
+                      onBackButtonTap: wm.onBackButtonTap,
                     ),
                   ],
                 ),
-              )
-            ],
-          );
-        },
-        loadingBuilder: (_, __) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-        failureBuilder: (_, failure, __) {
-          return Center(
-            child: Column(
-              children: [
-                Text('Whoops!\n$failure'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 26),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              LeftAlignText(
+                                text: photo.username,
+                                textStyle: textStyle,
+                              ),
+                              LeftAlignText(
+                                text: '${photo.likesCount} likes',
+                                textStyle: textStyle,
+                              ),
+                            ],
+                          ),
+                          FavoriteButton(
+                            isFavorite: photo.isFavorite,
+                            onTap: wm.onFavoriteButtonTap,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                      const LeftAlignText(
+                        text: 'Note:',
+                        textStyle: textStyle,
+                      ),
+                      const SizedBox(height: 10),
+                      NoteForm(
+                        formKey: wm.formKey,
+                        controller: wm.noteTextEditingController,
+                        onSaveNote: wm.onSaveNote,
+                        isEnabled: photo.isFavorite,
+                      ),
+                      const SizedBox(height: 100),
+                    ],
+                  ),
+                )
               ],
-            ),
-          );
-        },
+            );
+          },
+          loadingBuilder: (_, __) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+          failureBuilder: (_, failure, __) {
+            return Center(
+              child: Column(
+                children: [
+                  Text('Whoops!\n$failure'),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

@@ -32,6 +32,8 @@ class NoteForm extends StatelessWidget {
           TextFormField(
             enabled: isEnabled,
             controller: controller,
+            maxLines: 3,
+            minLines: 1,
             validator: (text) {
               if (text == null || text.isEmpty) {
                 return 'Please enter note';
