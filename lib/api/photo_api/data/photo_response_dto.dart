@@ -2,11 +2,12 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'photo_response_dto.g.dart';
 
-/// Remote model for photo from Unsplash.
+/// [PhotoResponseDTO] for photo from unsplash.com
 @JsonSerializable()
 class PhotoResponseDTO {
-  /// Default constructor.
+  /// Create an instance of [PhotoResponseDTO].
   const PhotoResponseDTO({
+    required this.id,
     required this.urls,
     required this.user,
     required this.likesCount,
@@ -14,57 +15,60 @@ class PhotoResponseDTO {
     required this.blurHash,
   });
 
-  /// Photo urls.
-  final PhotoUrlsResponseDTO urls;
+  /// Photo id from unsplash.com.
+  final String id;
 
-  /// User data.
+  /// Photo urls (different resolutions).
+  final PhotoUrlResponseDTO urls;
+
+  /// Photo author's username.
   final PhotoUserResponseDTO user;
 
-  /// Count of likes on photo.
+  /// Photo count of likes.
   @JsonKey(name: 'likes')
   final int likesCount;
 
-  /// Color of shadow for photo.
+  /// Photo color of shadow.
   @JsonKey(name: 'color')
   final String shadowColor;
 
-  /// Blur hash to show while photo is loading.
+  /// Photo blurhash to show while loading.
   @JsonKey(name: 'blur_hash')
   final String blurHash;
 
-  ///From json method.
+  /// Create [PhotoResponseDTO] from JSON.
   factory PhotoResponseDTO.fromJson(Map<String, dynamic> json) =>
       _$PhotoResponseDTOFromJson(json);
 }
 
-/// Remote model for photo url.
+/// [PhotoUrlResponseDTO] for photo url.
 @JsonSerializable()
-class PhotoUrlsResponseDTO {
-  /// Default constructor.
-  const PhotoUrlsResponseDTO({
+class PhotoUrlResponseDTO {
+  /// Create an instance of [PhotoUrlResponseDTO].
+  const PhotoUrlResponseDTO({
     required this.regular,
   });
 
-  /// Url for regular photo.
+  /// Photo url of regular size.
   final String regular;
 
-  /// From json method.
-  factory PhotoUrlsResponseDTO.fromJson(Map<String, dynamic> json) =>
-      _$PhotoUrlsResponseDTOFromJson(json);
+  /// Create [PhotoUrlResponseDTO] from JSON.
+  factory PhotoUrlResponseDTO.fromJson(Map<String, dynamic> json) =>
+      _$PhotoUrlResponseDTOFromJson(json);
 }
 
-/// Remote model for user from photo.
+/// [PhotoUserResponseDTO] for user from photo.
 @JsonSerializable()
 class PhotoUserResponseDTO {
-  /// Default constructor.
+  /// Create an instance of [PhotoUserResponseDTO].
   const PhotoUserResponseDTO({
     required this.username,
   });
 
-  /// Username.
+  /// Photo author's username.
   final String username;
 
-  /// From json method.
+  /// Create [PhotoUserResponseDTO] from JSON.
   factory PhotoUserResponseDTO.fromJson(Map<String, dynamic> json) =>
       _$PhotoUserResponseDTOFromJson(json);
 }

@@ -1,24 +1,30 @@
-import 'package:dio/dio.dart';
-import 'package:photostock/api/photo_api/photo_api.dart';
-import 'package:photostock/features/photo/data/photo_repository/photo_repository_impl.dart';
-import 'package:photostock/features/photo/domain/domain.dart';
+import 'package:photostock/features/photo/domain/repository/photo_api_repository.dart';
+import 'package:photostock/features/photo/domain/repository/photo_storage_repository.dart';
 
-/// Photo  dependencies.
+/// Dependencies for Photo feature.
 abstract interface class IPhotoScope {
-  /// Repository for loading photos.
-  IPhotoRepository get photoRepository;
+  /// Get instance of [IPhotoApiRepository].
+  IPhotoApiRepository get photoApiRepository;
+
+  /// Get instance of [IPhotoStorageRepository].
+  IPhotoStorageRepository get photoStorageRepository;
 }
 
-/// Photo  dependencies.
+/// Implementation of [IPhotoScope].
 class PhotoScope implements IPhotoScope {
   /// Create an instance of [PhotoScope].
-  PhotoScope({required Dio dio}) {
-    final photoApi = PhotoApi(dio);
-    _photoRepository = PhotoRepository(photoApi: photoApi);
-  }
+  PhotoScope({
+    required IPhotoApiRepository photoApiRepository,
+    required IPhotoStorageRepository photoStorageRepository,
+  })  : _photoApiRepository = photoApiRepository,
+        _photoStorageRepository = photoStorageRepository;
 
-  late final IPhotoRepository _photoRepository;
+  final IPhotoApiRepository _photoApiRepository;
+  final IPhotoStorageRepository _photoStorageRepository;
 
   @override
-  IPhotoRepository get photoRepository => _photoRepository;
+  IPhotoApiRepository get photoApiRepository => _photoApiRepository;
+
+  @override
+  IPhotoStorageRepository get photoStorageRepository => _photoStorageRepository;
 }

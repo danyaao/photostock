@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:photostock/features/home_tabs/presentation/screens/home_tabs/home_tabs.dart';
-import 'package:photostock/features/navigation/navigation.dart';
+import 'package:photostock/features/navigation/service/router.dart';
 
 /// Interface of [HomeTabsWidgetModel].
 abstract interface class IHomeTabsWidgetModel implements IWidgetModel {
@@ -23,7 +23,7 @@ class HomeTabsWidgetModel extends WidgetModel<HomeTabsWidget, IHomeTabsModel>
   HomeTabsWidgetModel(super._model);
 
   final _routes = <PageRouteInfo>[
-    const PhotoRootRouter(),
+    PhotoListRouter(),
     FavoriteListRouter(),
   ];
 
@@ -32,14 +32,14 @@ class HomeTabsWidgetModel extends WidgetModel<HomeTabsWidget, IHomeTabsModel>
 
   @override
   List<NavigationDestination> get navigationDestinations => [
-        NavigationItem.photo.toNavigationDestination(),
-        NavigationItem.favorite.toNavigationDestination(),
+        for (final navigationItem in NavigationItem.values)
+          navigationItem.toNavigationDestination()
       ];
 
   @override
   List<NavigationRailDestination> get navigationRailDestinations => [
-        NavigationItem.photo.toNavigationRailDestination(),
-        NavigationItem.favorite.toNavigationRailDestination(),
+        for (final navigationItem in NavigationItem.values)
+          navigationItem.toNavigationRailDestination()
       ];
 }
 

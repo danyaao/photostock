@@ -4,7 +4,13 @@ import 'package:photostock/assets/text/text_extension.dart';
 /// Animated app bar for photo list.
 class PhotoAppBar extends StatelessWidget {
   /// Default constructor.
-  const PhotoAppBar({super.key});
+  const PhotoAppBar({
+    required this.label,
+    super.key,
+  });
+
+  /// App bar title label.
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +33,8 @@ class PhotoAppBar extends StatelessWidget {
                 padding: EdgeInsets.only(left: top > 80 ? 12 : 0),
                 child: AnimatedDefaultTextStyle(
                   duration: const Duration(microseconds: 500),
-                  // TODO(me): remove hardcode.
-                  child: const Text(
-                    'Photos',
+                  child: Text(
+                    label,
                   ),
                   style: top > 80
                       ? text.bold.copyWith(
