@@ -4,22 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:photostock/features/navigation/domain/entity/app_route_names.dart';
 import 'package:photostock/features/photo/domain/entity/photo.dart';
-import 'package:photostock/features/photo/presentation/screens/photo_list/photo_list_widget_model.dart';
+import 'package:photostock/features/photo/presentation/screens/favorite_list/favorite_list_widget_model.dart';
 import 'package:photostock/features/photo/presentation/widgets/photo_app_bar.dart';
 import 'package:photostock/features/photo/presentation/widgets/photo_card_grid_view.dart';
 import 'package:union_state/union_state.dart';
 
-/// Elementary widget for PhotoList screen.
-@RoutePage(name: AppRouteNames.photoListScreen)
-class PhotoListWidget extends ElementaryWidget<IPhotoListWidgetModel> {
-  /// Create an instance of [PhotoListWidget].
-  const PhotoListWidget({
+/// Elementary widget for FavoriteList screen.
+@RoutePage(name: AppRouteNames.favoriteListScreen)
+class FavoriteListWidget extends ElementaryWidget<IFavoriteListWidgetModel> {
+  /// Create an instance of [FavoriteListWidget].
+  const FavoriteListWidget({
     Key? key,
-    WidgetModelFactory widgetModelFactory = createPhotoListWidgetModel,
+    WidgetModelFactory widgetModelFactory = createFavoriteListWidgetModel,
   }) : super(widgetModelFactory, key: key);
 
   @override
-  Widget build(IPhotoListWidgetModel wm) {
+  Widget build(IFavoriteListWidgetModel wm) {
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -28,7 +28,7 @@ class PhotoListWidget extends ElementaryWidget<IPhotoListWidgetModel> {
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return <Widget>[
                 const PhotoAppBar(
-                  label: 'Photos',
+                  label: 'Favorites',
                 ),
               ];
             },

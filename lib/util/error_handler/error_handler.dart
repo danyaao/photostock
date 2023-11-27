@@ -6,8 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:photostock/features/common/domain/entity/failure/failure.dart';
 
 /// Обработчик ошибок из [Exception] в [Failure]
-class PhotoErrorHandler {
-  const PhotoErrorHandler._();
+class PhotostockErrorHandler {
+  const PhotostockErrorHandler._();
 
   /// Обработать запрос
   static Future<T> handle<T>(

@@ -7,13 +7,13 @@
 /// ```
 abstract class AppRoutePaths {
   /// Path to home tabs screen.
-  static const String homeTabsPath = '/';
+  static const String homeTabsPath = 'home';
 
   /// Path to photo root screen.
-  static const String photoRootPath = 'photo';
+  static const String photoRootPath = '/';
 
   /// Path to photo list screen.
-  static const String photoListPath = 'list';
+  static const String photoListPath = 'photo';
 
   /// Path to photo details screen.
   static const String photoDetailsPath = 'details';

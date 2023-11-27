@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:photostock/config/environment/environment.dart';
 import 'package:photostock/features/common/service/theme/theme_service.dart';
 import 'package:photostock/features/common/service/theme/theme_service_impl.dart';
 import 'package:photostock/features/navigation/service/router.dart';
+import 'package:photostock/persistence/storage/photo_storage/photo_storage.dart';
 import 'package:photostock/persistence/storage/theme_storage/theme_storage.dart';
 import 'package:photostock/persistence/storage/theme_storage/theme_storage_impl.dart';
 import 'package:photostock/util/error_handler/default_error_handler.dart';
@@ -17,6 +17,7 @@ class AppScope implements IAppScope {
   final SharedPreferences _sharedPreferences;
 
   late final Dio _dio;
+  late final PhotoStorage _photoStorage;
   late final ErrorHandler _errorHandler;
   late final AppRouter _router;
   late final IThemeService _themeService;
@@ -26,6 +27,9 @@ class AppScope implements IAppScope {
 
   @override
   Dio get dio => _dio;
+
+  @override
+  PhotoStorage get photoStorage => _photoStorage;
 
   @override
   ErrorHandler get errorHandler => _errorHandler;
@@ -47,6 +51,7 @@ class AppScope implements IAppScope {
     final additionalInterceptors = <Interceptor>[];
 
     _dio = _initDio(additionalInterceptors);
+    _photoStorage = PhotoStorage();
     _errorHandler = DefaultErrorHandler();
     _router = AppRouter.instance();
     _themeModeStorage = ThemeModeStorageImpl(_sharedPreferences);
@@ -62,22 +67,9 @@ class AppScope implements IAppScope {
   }
 
   Dio _initDio(Iterable<Interceptor> additionalInterceptors) {
-    const timeout = Duration(seconds: 5);
-
     final dio = Dio();
 
-    dio.options
-      ..baseUrl = 'https://api.unsplash.com/'
-      ..connectTimeout = timeout
-      ..receiveTimeout = timeout
-      ..sendTimeout = timeout;
-    
-    dio.interceptors.addAll(additionalInterceptors);
-
-    if (Environment.instance().isDebug) {
-      dio.interceptors
-          .add(LogInterceptor(requestBody: true, responseBody: true));
-    }
+    dio.options.baseUrl = 'https://api.unsplash.com/';
 
     return dio;
   }
@@ -91,6 +83,9 @@ class AppScope implements IAppScope {
 abstract class IAppScope {
   /// Http client.
   Dio get dio;
+
+  /// Photo storage.
+  PhotoStorage get photoStorage;
 
   /// Interface for handle error in business logic.
   ErrorHandler get errorHandler;

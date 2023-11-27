@@ -3,9 +3,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:photostock/assets/themes/theme_data.dart';
 import 'package:photostock/config/environment/environment.dart';
+import 'package:photostock/core/di/di_scope.dart';
 import 'package:photostock/features/app/di/app_scope.dart';
 import 'package:photostock/features/common/service/theme/theme_service.dart';
-import 'package:photostock/features/common/widgets/di_scope/di_scope.dart';
 import 'package:photostock/persistence/storage/config_storage/config_storage_impl.dart';
 
 /// App widget.
