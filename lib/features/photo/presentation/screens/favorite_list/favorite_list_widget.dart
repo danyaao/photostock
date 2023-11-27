@@ -38,9 +38,8 @@ class FavoriteListWidget extends ElementaryWidget<IFavoriteListWidgetModel> {
                 return PhotoCardGridView(
                   pagingController: pagingController,
                   onRefresh: wm.onRefresh,
-                  onPhotoSelected: (index) {
-                    wm.onPhotoSelected(index: index);
-                  },
+                  onPhotoSelected: (index) => wm.onPhotoSelected(index: index),
+                  onFavoriteTap: (index) => wm.toggleFavorite(index: index),
                 );
               },
               loadingBuilder: (_, __) {

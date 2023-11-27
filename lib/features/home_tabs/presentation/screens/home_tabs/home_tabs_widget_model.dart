@@ -30,17 +30,16 @@ class HomeTabsWidgetModel extends WidgetModel<HomeTabsWidget, IHomeTabsModel>
   @override
   List<PageRouteInfo> get routes => _routes;
 
-  // TODO(me): combine navigationDestinations and navigationRailDestinations.
   @override
   List<NavigationDestination> get navigationDestinations => [
-        NavigationItem.photo.toNavigationDestination(),
-        NavigationItem.favorite.toNavigationDestination(),
+        for (final navigationItem in NavigationItem.values)
+          navigationItem.toNavigationDestination()
       ];
 
   @override
   List<NavigationRailDestination> get navigationRailDestinations => [
-        NavigationItem.photo.toNavigationRailDestination(),
-        NavigationItem.favorite.toNavigationRailDestination(),
+        for (final navigationItem in NavigationItem.values)
+          navigationItem.toNavigationRailDestination()
       ];
 }
 

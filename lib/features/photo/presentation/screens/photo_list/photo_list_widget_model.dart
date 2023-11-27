@@ -5,6 +5,7 @@ import 'package:photostock/core/di/inherited_container.dart';
 import 'package:photostock/core/union_state/union_state_action_handler_mixin.dart';
 import 'package:photostock/features/photo/di/photo_scope.dart';
 import 'package:photostock/features/photo/domain/entity/photo.dart';
+import 'package:photostock/features/photo/domain/use_case/favorite_use_case.dart';
 import 'package:photostock/features/photo/presentation/screens/photo_details/photo_details_widget.dart';
 import 'package:photostock/features/photo/presentation/screens/photo_list/photo_list_model.dart';
 import 'package:photostock/features/photo/presentation/screens/photo_list/photo_list_widget.dart';
@@ -19,8 +20,13 @@ abstract interface class IPhotoListWidgetModel implements IWidgetModel {
   /// Refresh.
   void onRefresh();
 
-  /// Open photo.
+  /// Open [Photo].
   void onPhotoSelected({
+    required int index,
+  });
+
+  /// Change [Photo] favorite status.
+  Future<void> toggleFavorite({
     required int index,
   });
 
@@ -72,6 +78,17 @@ class PhotoListWidgetModel extends WidgetModel<PhotoListWidget, IPhotoListModel>
   }
 
   @override
+  Future<void> toggleFavorite({
+    required int index,
+  }) async {
+    final photoList = _unionStatePagingController.value.data?.itemList;
+
+    if (photoList != null) {
+      await model.toggleFavorite(photo: photoList[index]);
+    }
+  }
+
+  @override
   Future<void> onPageRequested({
     required int pageKey,
   }) async {
@@ -92,15 +109,56 @@ class PhotoListWidgetModel extends WidgetModel<PhotoListWidget, IPhotoListModel>
     );
   }
 
+  Future<void> _updateOnFavoriteChange({
+    required List<Photo> newPhotoList,
+  }) async {
+    await handleUnionStateAction(
+        action: () async {
+          final currentPhotoList = _pagingController.itemList ?? [];
+
+          final newPhotoListIds = newPhotoList.map((photo) => photo.id).toSet();
+          final currentPhotoListIds =
+              currentPhotoList.map((photo) => photo.id).toList();
+
+          for (var i = 0; i < currentPhotoList.length; i++) {
+            if (newPhotoListIds.contains(currentPhotoListIds[i])) {
+              currentPhotoList[i] = newPhotoList.firstWhere(
+                (photo) => photo.id == currentPhotoList[i].id,
+              );
+            } else {
+              currentPhotoList[i] = currentPhotoList[i].copyWith(
+                isFavorite: false,
+              );
+            }
+          }
+
+          // TODO(me): remove notifyListenres.
+          _pagingController.notifyListeners();
+
+          return _pagingController;
+        },
+        unionStateNotifier: _unionStatePagingController);
+  }
+
   @override
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
+    model.watchFavoriteChange().listen(
+      (newPhotoList) {
+        _updateOnFavoriteChange(newPhotoList: newPhotoList);
+      },
+    );
     _pagingController.addPageRequestListener(
       (pageKey) {
         onPageRequested(pageKey: pageKey);
       },
     );
+
     await onPageRequested(pageKey: 0);
+
+    final newPhotoList = await model.getFavoritePhotoList();
+
+    await _updateOnFavoriteChange(newPhotoList: newPhotoList);
   }
 
   @override
@@ -116,8 +174,12 @@ PhotoListWidgetModel createPhotoListWidgetModel(
 ) {
   final photoScope = InheritedContainer.read<IPhotoScope>(context);
 
+  final favoriteUseCase = FavoriteUseCase(
+      photoStorageRepository: photoScope.photoStorageRepository);
+
   final model = PhotoListModel(
     photoApiRepository: photoScope.photoApiRepository,
+    favoriteUseCase: favoriteUseCase,
   );
 
   //final appScope = InheritedContainer.read<IAppScope>(context);

@@ -4,9 +4,9 @@ import 'package:photostock/features/photo/domain/entity/photo.dart';
 import 'package:photostock/features/photo/domain/repository/photo_storage_repository.dart';
 import 'package:photostock/persistence/storage/photo_storage/photo_storage.dart';
 
-/// Implementation of [IPhotoStorageRepository].
+/// [IPhotoStorageRepository] implementation.
 class PhotoStorageRepository implements IPhotoStorageRepository {
-  /// Default constructor.
+  /// Create an instance of [PhotoStorageRepository].
   const PhotoStorageRepository({
     required PhotoStorage photoStorage,
   }) : _photoStorage = photoStorage;
@@ -14,30 +14,50 @@ class PhotoStorageRepository implements IPhotoStorageRepository {
   final PhotoStorage _photoStorage;
 
   @override
-  Stream<List<Photo>> getPhotoList() async* {
+  Stream<List<Photo>> watchPhotoList() async* {
     final storedPhotoListSelect =
         _photoStorage.select(_photoStorage.storedPhotos);
 
     final storedPhotoListStream = storedPhotoListSelect.watch();
 
     await for (final storedPhotoList in storedPhotoListStream) {
-      final photoList = storedPhotoList.map((e) => e.toDomain()).toList();
+      final photoList = storedPhotoList
+          .map(
+            (storedPhoto) => storedPhoto.toDomain(),
+          )
+          .toList();
 
       yield photoList;
     }
   }
 
   @override
-  Future<Photo?> maybeGetPhotoById({required String id}) async {
+  Future<List<Photo>> getPhotoList() async {
+    final storedPhotoListSelect =
+        _photoStorage.select(_photoStorage.storedPhotos);
+
+    final storedPhotoList = await storedPhotoListSelect.get();
+
+    final photoList = storedPhotoList.map((photo) => photo.toDomain()).toList();
+
+    return photoList;
+  }
+
+  @override
+  Future<Photo?> getPhoto({
+    required String id,
+  }) async {
     final photoListSelect = _photoStorage.select(_photoStorage.storedPhotos)
-      ..where((tbl) => tbl.id.contains(id));
+      ..where((storedPhoto) => storedPhoto.id.contains(id));
 
     final photoList = await photoListSelect.get();
 
     return photoList.isEmpty ? null : photoList.first.toDomain();
   }
 
-  Future<void> _insertPhoto({required Photo photo}) async {
+  Future<void> _insertPhoto({
+    required Photo photo,
+  }) async {
     await _photoStorage.into(_photoStorage.storedPhotos).insert(
           StoredPhotosCompanion.insert(
             id: photo.id,
@@ -52,31 +72,20 @@ class PhotoStorageRepository implements IPhotoStorageRepository {
   }
 
   @override
-  Future<void> upsertPhoto({required Photo photo}) async {
-    final shouldDelete = await isFavorite(id: photo.id);
-    if (shouldDelete) {
-      await deletePhoto(id: photo.id);
-      await _insertPhoto(photo: photo);
-    } else {
-      await _insertPhoto(photo: photo);
-    }
+  Future<void> upsertPhoto({
+    required Photo photo,
+  }) async {
+    await deletePhoto(id: photo.id);
+    await _insertPhoto(photo: photo);
   }
 
   @override
-  Future<void> deletePhoto({required String id}) async {
+  Future<void> deletePhoto({
+    required String id,
+  }) async {
     final deleteStatement = _photoStorage.delete(_photoStorage.storedPhotos)
-      ..where((tbl) => tbl.id.equals(id));
+      ..where((storedPhoto) => storedPhoto.id.equals(id));
 
     await deleteStatement.go();
-  }
-
-  @override
-  Future<bool> isFavorite({required String id}) async {
-    final photoListSelect = _photoStorage.select(_photoStorage.storedPhotos)
-      ..where((tbl) => tbl.id.contains(id));
-
-    final photoList = await photoListSelect.get();
-
-    return photoList.isNotEmpty;
   }
 }

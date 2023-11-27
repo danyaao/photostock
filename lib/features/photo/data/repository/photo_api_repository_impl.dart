@@ -7,9 +7,9 @@ import 'package:photostock/features/photo/domain/entity/photo.dart';
 import 'package:photostock/features/photo/domain/repository/photo_api_repository.dart';
 import 'package:photostock/util/error_handler/error_handler.dart';
 
-/// Implementation of [IPhotoApiRepository].
+/// [IPhotoApiRepository] implementation.
 class PhotoApiRepository implements IPhotoApiRepository {
-  /// Default constructor.
+  /// Create an instance of [PhotoApiRepository].
   const PhotoApiRepository({
     required PhotoApi photoApi,
   }) : _photoApi = photoApi;

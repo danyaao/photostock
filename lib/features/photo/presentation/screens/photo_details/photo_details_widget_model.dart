@@ -5,6 +5,7 @@ import 'package:photostock/features/app/di/app_scope.dart';
 import 'package:photostock/features/navigation/service/router.dart';
 import 'package:photostock/features/photo/data/repository/photo_storage_repository_impl.dart';
 import 'package:photostock/features/photo/domain/entity/photo.dart';
+import 'package:photostock/features/photo/domain/use_case/favorite_use_case.dart';
 import 'package:photostock/features/photo/presentation/screens/photo_details/photo_details_model.dart';
 import 'package:photostock/features/photo/presentation/screens/photo_details/photo_details_widget.dart';
 import 'package:union_state/union_state.dart';
@@ -63,7 +64,7 @@ class PhotoDetailsWidgetModel
   @override
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
-    _photo.content(await model.maybeGetPhotoById(id: widget.photoFromList.id) ??
+    _photo.content(await model.getPhoto(id: widget.photoFromList.id) ??
         widget.photoFromList);
     _noteTextEditingController.text = _photo.value.data?.note ?? '';
   }
@@ -103,8 +104,10 @@ PhotoDetailsWidgetModel createPhotoDetailsWidgetModel(
   final photoStorageRepository =
       PhotoStorageRepository(photoStorage: appScope.photoStorage);
 
-  final model =
-      PhotoDetailsModel(photoStorageRepository: photoStorageRepository);
+  final model = PhotoDetailsModel(
+    favoriteUseCase:
+        FavoriteUseCase(photoStorageRepository: photoStorageRepository),
+  );
 
   final appRouter = InheritedContainer.read<IAppScope>(context).router;
 

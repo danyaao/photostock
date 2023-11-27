@@ -5,6 +5,7 @@ import 'package:photostock/core/di/inherited_container.dart';
 import 'package:photostock/core/union_state/union_state_action_handler_mixin.dart';
 import 'package:photostock/features/photo/di/photo_scope.dart';
 import 'package:photostock/features/photo/domain/entity/photo.dart';
+import 'package:photostock/features/photo/domain/use_case/favorite_use_case.dart';
 import 'package:photostock/features/photo/presentation/screens/favorite_list/favorite_list_model.dart';
 import 'package:photostock/features/photo/presentation/screens/favorite_list/favorite_list_widget.dart';
 import 'package:photostock/features/photo/presentation/screens/photo_details/photo_details_widget.dart';
@@ -21,6 +22,11 @@ abstract interface class IFavoriteListWidgetModel implements IWidgetModel {
 
   /// Open photo.
   void onPhotoSelected({
+    required int index,
+  });
+
+  /// Change [Photo] favorite status.
+  Future<void> toggleFavorite({
     required int index,
   });
 }
@@ -70,6 +76,17 @@ class FavoriteListWidgetModel
     }
   }
 
+  @override
+  Future<void> toggleFavorite({
+    required int index,
+  }) async {
+    final photoList = _unionStatePagingController.value.data?.itemList;
+
+    if (photoList != null) {
+      await model.toggleFavorite(photo: photoList[index]);
+    }
+  }
+
   Future<void> _onFavoriteChanged({
     required List<Photo> photoList,
   }) async {
@@ -109,7 +126,8 @@ FavoriteListWidgetModel createFavoriteListWidgetModel(
   final photoScope = InheritedContainer.read<IPhotoScope>(context);
 
   final model = FavoriteListModel(
-    photoStorageRepository: photoScope.photoStorageRepository,
+    favoriteUseCase: FavoriteUseCase(
+        photoStorageRepository: photoScope.photoStorageRepository),
   );
 
   //final appScope = InheritedContainer.read<IAppScope>(context);

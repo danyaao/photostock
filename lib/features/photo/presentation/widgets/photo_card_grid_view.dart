@@ -10,6 +10,7 @@ class PhotoCardGridView extends StatelessWidget {
     required this.pagingController,
     required this.onRefresh,
     required this.onPhotoSelected,
+    required this.onFavoriteTap,
     super.key,
   });
 
@@ -21,6 +22,9 @@ class PhotoCardGridView extends StatelessWidget {
 
   /// Select photo action.
   final ValueSetter<int> onPhotoSelected;
+
+  /// Change favorite status.
+  final ValueSetter<int> onFavoriteTap;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +45,8 @@ class PhotoCardGridView extends StatelessWidget {
             return PhotoCard(
               photo: photo,
               onTap: onPhotoSelected,
+              onFavoriteTap: onFavoriteTap,
+              isFavorite: photo.isFavorite,
               index: index,
             );
           },

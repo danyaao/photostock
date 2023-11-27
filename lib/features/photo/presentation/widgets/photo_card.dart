@@ -9,6 +9,8 @@ class PhotoCard extends StatelessWidget {
   const PhotoCard({
     required this.photo,
     required this.onTap,
+    required this.onFavoriteTap,
+    required this.isFavorite,
     required this.index,
     super.key,
   });
@@ -18,6 +20,12 @@ class PhotoCard extends StatelessWidget {
 
   /// On tap photo action.
   final ValueSetter<int> onTap;
+
+  /// On favorite button tap.
+  final ValueSetter<int> onFavoriteTap;
+
+  /// Is [Photo] in favorite.
+  final bool isFavorite;
 
   /// Photo index.
   final int index;
@@ -87,6 +95,30 @@ class PhotoCard extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                      right: 8,
+                    ),
+                    child: InkWell(
+                      onTap: () => onFavoriteTap(index),
+                      borderRadius: BorderRadius.circular(100),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 8,
+                          right: 8,
+                        ),
+                        child: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_outline,
+                          color:
+                              isFavorite ? Colors.red.shade300 : Colors.black,
+                        ),
+                      ),
                     ),
                   ),
                 ),

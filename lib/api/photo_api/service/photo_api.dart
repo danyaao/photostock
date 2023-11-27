@@ -4,13 +4,13 @@ import 'package:retrofit/retrofit.dart';
 
 part 'photo_api.g.dart';
 
-/// Api for getting photos from Unsplash.
+/// [PhotoApi] for getting photos from unsplash.com.
 @RestApi()
 abstract class PhotoApi {
-  /// Factory constructor.
+  /// Create an instance of [PhotoApi].
   factory PhotoApi(Dio dio, {String baseUrl}) = _PhotoApi;
 
-  /// Get method for loading photos.
+  /// Get photos from unsplash.com.
   @GET('/photos')
   Future<List<PhotoResponseDTO>> getPhotos({
     @Query('client_id') required String clientId,

@@ -1,25 +1,26 @@
 import 'package:photostock/features/photo/domain/entity/photo.dart';
+import 'package:photostock/persistence/storage/photo_storage/photo_storage.dart';
 
-/// Repository for handling data from storage.
+/// [IPhotoStorageRepository] for handling data from [PhotoStorage].
 abstract interface class IPhotoStorageRepository {
-  /// Get [Photo] list from storage as [Stream].
-  Stream<List<Photo>> getPhotoList();
+  /// Watch [List] of [Photo] from [PhotoStorage] as [Stream].
+  Stream<List<Photo>> watchPhotoList();
 
-  /// Get [Photo] or [Null] by id.
-  Future<Photo?> maybeGetPhotoById({required String id});
+  /// Get [List] of [Photo] from [PhotoStorage] by id or [Null].
+  Future<List<Photo>> getPhotoList();
 
-  /// Store [Photo] to storage.
+  /// Get [Photo] from [PhotoStorage] by id or [Null].
+  Future<Photo?> getPhoto({
+    required String id,
+  });
+
+  /// Store [Photo] to [PhotoStorage].
   Future<void> upsertPhoto({
     required Photo photo,
   });
 
-  /// Delete [Photo] to storage.
+  /// Delete [Photo] from [PhotoStorage].
   Future<void> deletePhoto({
-    required String id,
-  });
-
-  /// Check if [Photo] is stored.
-  Future<bool> isFavorite({
     required String id,
   });
 }

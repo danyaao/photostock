@@ -14,12 +14,21 @@ enum AppTextStyle {
     TextStyle(
       fontSize: 16,
       fontFamily: 'Manrope',
+      color: Colors.black,
+    ),
+  ),
+  regular32(
+    TextStyle(
+      fontSize: 32,
+      fontFamily: 'Manrope',
+      color: Colors.black,
     ),
   ),
   bold(
     TextStyle(
       fontSize: 16,
       fontFamily: 'Manrope',
+      color: Colors.black,
       fontWeight: FontWeight.w700,
     ),
   );
