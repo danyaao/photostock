@@ -64,7 +64,7 @@ class FavoriteListWidgetModel
     if (photo != null) {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => PhotoDetailsWidget(photo: photo),
+          builder: (context) => PhotoDetailsWidget(photoFromList: photo),
         ),
       );
     }

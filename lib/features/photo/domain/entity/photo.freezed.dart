@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$Photo {
   String get id => throw _privateConstructorUsedError;
+  bool get isFavorite => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   int get likesCount => throw _privateConstructorUsedError;
@@ -35,6 +36,7 @@ abstract class $PhotoCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      bool isFavorite,
       String url,
       String username,
       int likesCount,
@@ -57,6 +59,7 @@ class _$PhotoCopyWithImpl<$Res, $Val extends Photo>
   @override
   $Res call({
     Object? id = null,
+    Object? isFavorite = null,
     Object? url = null,
     Object? username = null,
     Object? likesCount = null,
@@ -69,6 +72,10 @@ class _$PhotoCopyWithImpl<$Res, $Val extends Photo>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      isFavorite: null == isFavorite
+          ? _value.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool,
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
@@ -106,6 +113,7 @@ abstract class _$$PhotoImplCopyWith<$Res> implements $PhotoCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
+      bool isFavorite,
       String url,
       String username,
       int likesCount,
@@ -126,6 +134,7 @@ class __$$PhotoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
+    Object? isFavorite = null,
     Object? url = null,
     Object? username = null,
     Object? likesCount = null,
@@ -138,6 +147,10 @@ class __$$PhotoImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      isFavorite: null == isFavorite
+          ? _value.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool,
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
@@ -171,6 +184,7 @@ class __$$PhotoImplCopyWithImpl<$Res>
 class _$PhotoImpl with DiagnosticableTreeMixin implements _Photo {
   const _$PhotoImpl(
       {required this.id,
+      required this.isFavorite,
       required this.url,
       required this.username,
       required this.likesCount,
@@ -180,6 +194,8 @@ class _$PhotoImpl with DiagnosticableTreeMixin implements _Photo {
 
   @override
   final String id;
+  @override
+  final bool isFavorite;
   @override
   final String url;
   @override
@@ -195,7 +211,7 @@ class _$PhotoImpl with DiagnosticableTreeMixin implements _Photo {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Photo(id: $id, url: $url, username: $username, likesCount: $likesCount, shadowColor: $shadowColor, blurHash: $blurHash, note: $note)';
+    return 'Photo(id: $id, isFavorite: $isFavorite, url: $url, username: $username, likesCount: $likesCount, shadowColor: $shadowColor, blurHash: $blurHash, note: $note)';
   }
 
   @override
@@ -204,6 +220,7 @@ class _$PhotoImpl with DiagnosticableTreeMixin implements _Photo {
     properties
       ..add(DiagnosticsProperty('type', 'Photo'))
       ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('isFavorite', isFavorite))
       ..add(DiagnosticsProperty('url', url))
       ..add(DiagnosticsProperty('username', username))
       ..add(DiagnosticsProperty('likesCount', likesCount))
@@ -218,6 +235,8 @@ class _$PhotoImpl with DiagnosticableTreeMixin implements _Photo {
         (other.runtimeType == runtimeType &&
             other is _$PhotoImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.isFavorite, isFavorite) ||
+                other.isFavorite == isFavorite) &&
             (identical(other.url, url) || other.url == url) &&
             (identical(other.username, username) ||
                 other.username == username) &&
@@ -230,8 +249,16 @@ class _$PhotoImpl with DiagnosticableTreeMixin implements _Photo {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, url, username, likesCount,
-      shadowColor, const DeepCollectionEquality().hash(blurHash), note);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      isFavorite,
+      url,
+      username,
+      likesCount,
+      shadowColor,
+      const DeepCollectionEquality().hash(blurHash),
+      note);
 
   @JsonKey(ignore: true)
   @override
@@ -243,6 +270,7 @@ class _$PhotoImpl with DiagnosticableTreeMixin implements _Photo {
 abstract class _Photo implements Photo {
   const factory _Photo(
       {required final String id,
+      required final bool isFavorite,
       required final String url,
       required final String username,
       required final int likesCount,
@@ -252,6 +280,8 @@ abstract class _Photo implements Photo {
 
   @override
   String get id;
+  @override
+  bool get isFavorite;
   @override
   String get url;
   @override

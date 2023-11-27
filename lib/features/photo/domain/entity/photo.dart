@@ -9,6 +9,7 @@ class Photo with _$Photo {
   /// Factory for [Photo].
   const factory Photo({
     required String id,
+    required bool isFavorite,
     required String url,
     required String username,
     required int likesCount,
