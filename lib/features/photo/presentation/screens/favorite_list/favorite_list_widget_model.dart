@@ -56,6 +56,7 @@ class FavoriteListWidgetModel
   UnionStateNotifier<List<Photo>> get unionStatePhotoList =>
       _unionStatePhotoList;
 
+
   // TODO(me): Implement onRefresh for FavoriteList.
   @override
   Future<void> onRefresh() async {}
