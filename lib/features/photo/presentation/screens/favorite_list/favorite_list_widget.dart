@@ -1,13 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:union_state/union_state.dart';
+
 import 'package:photostock/features/navigation/domain/entity/app_route_names.dart';
 import 'package:photostock/features/photo/domain/entity/photo.dart';
 import 'package:photostock/features/photo/presentation/screens/favorite_list/favorite_list_widget_model.dart';
 import 'package:photostock/features/photo/presentation/widgets/photo_app_bar.dart';
-import 'package:photostock/features/photo/presentation/widgets/photo_card_grid_view.dart';
-import 'package:union_state/union_state.dart';
+import 'package:photostock/features/photo/presentation/widgets/photo_card.dart';
 
 /// Elementary widget for FavoriteList screen.
 @RoutePage(name: AppRouteNames.favoriteListScreen)
@@ -32,14 +33,17 @@ class FavoriteListWidget extends ElementaryWidget<IFavoriteListWidgetModel> {
                 ),
               ];
             },
-            body: UnionStateListenableBuilder<PagingController<int, Photo>>(
-              unionStateListenable: wm.unionStatePagingController,
-              builder: (_, pagingController) {
-                return PhotoCardGridView(
-                  pagingController: pagingController,
-                  onRefresh: wm.onRefresh,
-                  onPhotoSelected: (index) => wm.onPhotoSelected(index: index),
+            body: UnionStateListenableBuilder<List<Photo>>(
+              unionStateListenable: wm.unionStatePhotoList,
+              builder: (context, photoList) {
+                return _ReorderablePhotoList(
+                  photoList: photoList,
+                  onTap: (index) => wm.onPhotoSelected(index: index),
                   onFavoriteTap: (index) => wm.toggleFavorite(index: index),
+                  onReorder: (oldIndex, newIndex) => wm.onReorder(
+                    oldIndex: oldIndex,
+                    newIndex: newIndex,
+                  ),
                 );
               },
               loadingBuilder: (_, __) {
@@ -69,6 +73,37 @@ class FavoriteListWidget extends ElementaryWidget<IFavoriteListWidgetModel> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ReorderablePhotoList extends StatelessWidget {
+  const _ReorderablePhotoList({
+    required this.photoList,
+    required this.onTap,
+    required this.onFavoriteTap,
+    required this.onReorder,
+  });
+
+  final List<Photo> photoList;
+  final ValueSetter<int> onTap;
+  final ValueSetter<int> onFavoriteTap;
+  final Function(int, int) onReorder;
+
+  @override
+  Widget build(BuildContext context) {
+    return ReorderableListView.builder(
+      itemCount: photoList.length,
+      itemBuilder: (context, index) => PhotoCard(
+        key: ValueKey(index.toString()),
+        photo: photoList[index],
+        onTap: onTap,
+        onFavoriteTap: onFavoriteTap,
+        // TODO(me): А зачем?
+        isFavorite: photoList[index].isFavorite,
+        index: index,
+      ),
+      onReorder: onReorder,
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:photostock/features/navigation/service/router.dart';
 final photoRootRoutes = AutoRoute(
   page: PhotoRootRouter.page,
   path: AppRoutePaths.photoRootPath,
+  initial: true,
   children: [
     homeTabsRoutes,
   ],
