@@ -1,6 +1,5 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:photostock/core/di/inherited_container.dart';
 import 'package:photostock/core/union_state/union_state_action_handler_mixin.dart';
 import 'package:photostock/features/photo/di/photo_scope.dart';
@@ -14,8 +13,7 @@ import 'package:union_state/union_state.dart';
 /// Interface of [FavoriteListWidgetModel].
 abstract interface class IFavoriteListWidgetModel implements IWidgetModel {
   /// Photos for UnionStateBuilder.
-  UnionStateNotifier<PagingController<int, Photo>>
-      get unionStatePagingController;
+  UnionStateNotifier<List<Photo>> get unionStatePhotoList;
 
   /// Refresh.
   void onRefresh();
@@ -28,6 +26,12 @@ abstract interface class IFavoriteListWidgetModel implements IWidgetModel {
   /// Change [Photo] favorite status.
   Future<void> toggleFavorite({
     required int index,
+  });
+
+  /// On reorder.
+  void onReorder({
+    required int oldIndex,
+    required int newIndex,
   });
 }
 
@@ -45,16 +49,13 @@ class FavoriteListWidgetModel
 
   //final AppRouter _appRouter;
 
-  final PagingController<int, Photo> _pagingController =
-      PagingController(firstPageKey: 0);
-
-  final UnionStateNotifier<PagingController<int, Photo>>
-      _unionStatePagingController =
-      UnionStateNotifier<PagingController<int, Photo>>.loading();
+  final UnionStateNotifier<List<Photo>> _unionStatePhotoList =
+      UnionStateNotifier<List<Photo>>.loading();
 
   @override
-  UnionStateNotifier<PagingController<int, Photo>>
-      get unionStatePagingController => _unionStatePagingController;
+  UnionStateNotifier<List<Photo>> get unionStatePhotoList =>
+      _unionStatePhotoList;
+
 
   // TODO(me): Implement onRefresh for FavoriteList.
   @override
@@ -64,7 +65,7 @@ class FavoriteListWidgetModel
   void onPhotoSelected({
     required int index,
   }) {
-    final photo = _unionStatePagingController.value.data?.itemList?[index];
+    final photo = _unionStatePhotoList.value.data?[index];
 
     // TODO(me): Replace Navigator with AppRouter.
     if (photo != null) {
@@ -80,7 +81,7 @@ class FavoriteListWidgetModel
   Future<void> toggleFavorite({
     required int index,
   }) async {
-    final photoList = _unionStatePagingController.value.data?.itemList;
+    final photoList = _unionStatePhotoList.value.data;
 
     if (photoList != null) {
       await model.toggleFavorite(photo: photoList[index]);
@@ -91,31 +92,41 @@ class FavoriteListWidgetModel
     required List<Photo> photoList,
   }) async {
     await handleUnionStateAction(
-      action: () async {
-        _pagingController.value = PagingState(itemList: photoList);
-
-        return _pagingController;
-      },
-      unionStateNotifier: _unionStatePagingController,
+      action: () async => photoList,
+      unionStateNotifier: _unionStatePhotoList,
     );
+  }
+
+  @override
+  void onReorder({
+    required int oldIndex,
+    required int newIndex,
+  }) {
+    final photoList = _unionStatePhotoList.value.data;
+
+    if (photoList != null) {
+      if (oldIndex < newIndex) {
+        newIndex -= 1;
+      }
+
+      final item = photoList.removeAt(oldIndex);
+      photoList.insert(newIndex, item);
+
+      _unionStatePhotoList.content(photoList);
+    }
   }
 
   @override
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
-    model.getPhotoList().listen((photoList) {
+
+    model.watchFavoriteChange().listen((photoList) {
       _onFavoriteChanged(photoList: photoList);
     });
 
-    final photos = await model.getPhotoList().last;
+    final photos = await model.watchFavoriteChange().last;
 
     await _onFavoriteChanged(photoList: photos);
-  }
-
-  @override
-  void dispose() {
-    _pagingController.dispose();
-    super.dispose();
   }
 }
 

@@ -10,7 +10,7 @@ abstract interface class IFavoriteListModel extends ElementaryModel {
   });
 
   /// Get photo list as [Stream].
-  Stream<List<Photo>> getPhotoList();
+  Stream<List<Photo>> watchFavoriteChange();
 }
 
 /// Model for FavoriteList screen.
@@ -29,5 +29,6 @@ class FavoriteListModel extends ElementaryModel implements IFavoriteListModel {
       _favoriteUseCase.toggleFavorite(photo: photo);
 
   @override
-  Stream<List<Photo>> getPhotoList() => _favoriteUseCase.watchFavoriteChange();
+  Stream<List<Photo>> watchFavoriteChange() =>
+      _favoriteUseCase.watchFavoriteChange();
 }
