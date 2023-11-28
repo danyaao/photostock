@@ -43,6 +43,7 @@ class PhotoCardGridView extends StatelessWidget {
         builderDelegate: PagedChildBuilderDelegate(
           itemBuilder: (_, photo, index) {
             return PhotoCard(
+              photoCardType: PhotoCardType.common,
               photo: photo,
               onTap: onPhotoSelected,
               onFavoriteTap: onFavoriteTap,

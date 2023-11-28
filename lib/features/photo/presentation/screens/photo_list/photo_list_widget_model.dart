@@ -133,6 +133,7 @@ class PhotoListWidgetModel extends WidgetModel<PhotoListWidget, IPhotoListModel>
           }
 
           // TODO(me): remove notifyListenres.
+          // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
           _pagingController.notifyListeners();
 
           return _pagingController;
