@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:auto_route/auto_route.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
@@ -92,6 +93,7 @@ class _ReorderablePhotoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final photoUIAdapter = PhotoUIAdapter();
+
     return ReorderableListView.builder(
       itemCount: photoList.length,
       itemBuilder: (context, index) => PhotoCard(
