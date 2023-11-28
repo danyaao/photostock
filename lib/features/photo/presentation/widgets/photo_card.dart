@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:photostock/assets/text/text_extension.dart';
 import 'package:photostock/features/photo/domain/entity/photo.dart';
-import 'package:photostock/util/extensions/extensions.dart';
+import 'package:photostock/features/photo/domain/entity/photo_ui.dart';
 
 /// Photo card widget.
 class PhotoCard extends StatelessWidget {
@@ -16,7 +16,7 @@ class PhotoCard extends StatelessWidget {
   });
 
   /// Photo model to show.
-  final Photo photo;
+  final PhotoUI photo;
 
   /// On tap photo action.
   final ValueSetter<int> onTap;
@@ -43,7 +43,7 @@ class PhotoCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           ),
-          shadowColor: photo.shadowColor.toColor(),
+          shadowColor: photo.shadowColor,
           child: InkWell(
             onTap: () => onTap(index),
             borderRadius: BorderRadius.circular(30),

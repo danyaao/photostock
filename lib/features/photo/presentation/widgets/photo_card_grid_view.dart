@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:photostock/features/photo/domain/entity/photo.dart';
+import 'package:photostock/features/photo/domain/entity/photo_ui.dart';
 import 'package:photostock/features/photo/presentation/widgets/photo_card.dart';
 
 /// Grid view for photo cards.
@@ -42,8 +43,9 @@ class PhotoCardGridView extends StatelessWidget {
         ),
         builderDelegate: PagedChildBuilderDelegate(
           itemBuilder: (_, photo, index) {
+            final photoUIAdapter = PhotoUIAdapter();
             return PhotoCard(
-              photo: photo,
+              photo: photoUIAdapter(photo: photo),
               onTap: onPhotoSelected,
               onFavoriteTap: onFavoriteTap,
               isFavorite: photo.isFavorite,
